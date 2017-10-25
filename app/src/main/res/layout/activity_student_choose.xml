@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    tools:context="com.eltonviana.behere.StudentChooseActivity">
+
+    <ImageButton
+        android:id="@+id/btnQRCode"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="chooseQRCode"
+        app:srcCompat="@drawable/qrcode" />
+
+    <ImageButton
+        android:id="@+id/btnPassword"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="choosePassword"
+        app:srcCompat="@drawable/password" />
+</LinearLayout>

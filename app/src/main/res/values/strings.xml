@@ -13,4 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="qrcode_desc">QR Code</string>
+    <string name="password_desc">Password</string>
+
 </resources>
