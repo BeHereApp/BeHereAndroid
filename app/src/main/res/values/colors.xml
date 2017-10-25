@@ -4,4 +4,5 @@
     <color name="gray">#5b6266</color>
     <color name="dark_gray">#263238</color>
     <color name="teal">#4DB6AC</color>
+    <color name="gradient">@drawable/gradient</color>
 </resources>
