@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/dark_gray</item>
         <item name="colorAccent">@color/teal</item>
         <item name="android:colorBackground">@color/white</item>
+        <item name="colorButtonNormal">@color/teal</item>
     </style>
 
     <style name="BeHereTheme.NoActionBar">

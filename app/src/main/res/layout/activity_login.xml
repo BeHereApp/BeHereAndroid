@@ -24,7 +24,9 @@
         android:id="@+id/imageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_above="@+id/email_sign_in_button"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
         app:srcCompat="@drawable/be_here_logo" />
 
     <Button
@@ -32,9 +34,7 @@
         style="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imageView"
         android:layout_centerInParent="true"
-        android:layout_marginTop="80dp"
         android:onClick="signIn"
         android:text="Sign In"
         android:textStyle="bold" />
