@@ -1,4 +1,4 @@
-package com.eltonviana.behere;
+package br.ufrn.imd.behere;
 
 import android.content.Intent;
 import android.os.Bundle;
