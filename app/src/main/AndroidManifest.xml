@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/BeHereTheme">
         <activity
-            android:name="br.ufrn.imd.behere.LoginActivity"
+            android:name=".LoginActivity"
             android:theme="@style/BeHereTheme.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="br.ufrn.imd.behere.StudentChooseActivity" />
-        <activity android:name="br.ufrn.imd.behere.StudentPasswordActivity"></activity>
+        <activity android:name=".StudentChooseActivity" />
+        <activity android:name=".StudentPasswordActivity" />
+        <activity android:name=".StudentResultActivity"></activity>
     </application>
 
 </manifest>

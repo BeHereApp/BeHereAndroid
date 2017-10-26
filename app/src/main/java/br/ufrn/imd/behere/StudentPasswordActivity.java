@@ -1,5 +1,6 @@
 package br.ufrn.imd.behere;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,10 @@ public class StudentPasswordActivity extends CustomActivity {
 
     public void enterPassword(View v) {
         String userPassword = etPassword.getText().toString();
+        Intent intent = new Intent(this, StudentResultActivity.class);
+        intent.putExtra(StudentResultActivity.PASSWORD_RESULT, userPassword);
+        startActivity(intent);
         etPassword.setText("");
+        finish();
     }
 }
