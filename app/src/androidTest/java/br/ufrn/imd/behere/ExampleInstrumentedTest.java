@@ -1,4 +1,4 @@
-package com.eltonviana.behere;
+package br.ufrn.imd.behere;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.eltonviana.behere", appContext.getPackageName());
+        assertEquals("br.ufrn.imd.behere", appContext.getPackageName());
     }
 }

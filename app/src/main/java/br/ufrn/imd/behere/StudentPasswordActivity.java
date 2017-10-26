@@ -1,4 +1,4 @@
-package com.eltonviana.behere;
+package br.ufrn.imd.behere;
 
 import android.os.Bundle;
 import android.view.MenuItem;
