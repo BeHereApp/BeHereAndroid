@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 public class StudentPasswordActivity extends CustomActivity {
 
@@ -17,9 +19,12 @@ public class StudentPasswordActivity extends CustomActivity {
 
         etPassword = (EditText) findViewById(R.id.etPassword);
 
-        //adds back arrow to layout
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView layout = (ImageView) getSupportActionBar().getCustomView().findViewById(R.id.imageToolBar);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) layout.getLayoutParams();
+        params.setMargins(0, 0, 150, 0);
+        layout.setLayoutParams(params);
     }
 
     @Override
