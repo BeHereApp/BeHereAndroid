@@ -18,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="br.ufrn.imd.behere.LinkActivity" />
         <activity android:name="br.ufrn.imd.behere.StudentChooseActivity" />
-        <activity android:name="br.ufrn.imd.behere.StudentPasswordActivity"></activity>
+        <activity android:name="br.ufrn.imd.behere.StudentPasswordActivity" />
     </application>
 
 </manifest>
