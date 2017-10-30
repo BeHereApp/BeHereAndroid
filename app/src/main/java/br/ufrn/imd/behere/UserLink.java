@@ -6,20 +6,20 @@ package br.ufrn.imd.behere;
 
 public class UserLink {
 
-    private String name;
+    private LinkType type;
     private String description;
 
-    public UserLink(String name, String description) {
-        this.name = name;
+    public UserLink(LinkType type, String description) {
+        this.type = type;
         this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public LinkType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(LinkType type) {
+        this.type = type;
     }
 
     public String getDescription() {
@@ -28,5 +28,10 @@ public class UserLink {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public enum LinkType {
+        STUDENT,
+        PROFESSOR
     }
 }

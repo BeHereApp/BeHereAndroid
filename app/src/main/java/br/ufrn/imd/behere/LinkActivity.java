@@ -23,8 +23,8 @@ public class LinkActivity extends CustomActivity {
     private void setup() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         ArrayList<UserLink> userLinks = new ArrayList<>();
-        userLinks.add(new UserLink("Professor", "Digital Metropolis Institute"));
-        userLinks.add(new UserLink("Student", "Digital Metropolis Institute"));
+        userLinks.add(new UserLink(UserLink.LinkType.PROFESSOR, "Digital Metropolis Institute"));
+        userLinks.add(new UserLink(UserLink.LinkType.STUDENT, "Digital Metropolis Institute"));
         adapter = new RecyclerAdapter(userLinks);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
