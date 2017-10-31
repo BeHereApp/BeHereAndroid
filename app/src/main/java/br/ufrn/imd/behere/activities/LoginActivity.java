@@ -1,8 +1,10 @@
-package br.ufrn.imd.behere;
+package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import br.ufrn.imd.behere.R;
 
 public class LoginActivity extends CustomActivity {
 
@@ -13,7 +15,7 @@ public class LoginActivity extends CustomActivity {
     }
 
     public void signIn(View v) {
-        Intent intent = new Intent(LoginActivity.this, StudentChooseActivity.class);
+        Intent intent = new Intent(LoginActivity.this, LinkActivity.class);
         startActivity(intent);
     }
 }

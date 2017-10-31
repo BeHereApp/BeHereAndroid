@@ -1,4 +1,4 @@
-package br.ufrn.imd.behere;
+package br.ufrn.imd.behere.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,22 +8,24 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by claudio on 26/10/17.
- */
+import br.ufrn.imd.behere.R;
+import br.ufrn.imd.behere.model.UserLink;
+import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
+
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
 
+    private static RecyclerViewClickListener itemListener;
     private ArrayList<UserLink> userLinks = new ArrayList<>();
 
-    public RecyclerAdapter(ArrayList<UserLink> userLinks) {
+    public RecyclerAdapter(ArrayList<UserLink> userLinks, RecyclerViewClickListener itemListener) {
         this.userLinks = userLinks;
+        this.itemListener = itemListener;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent,
-                false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
 
         return new RecyclerViewHolder(view);
     }
@@ -32,7 +34,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
         UserLink userLink = userLinks.get(position);
-        String linkTypeName = userLink.getType() == UserLink.LinkType.STUDENT ? "Student" : "Professor";
+        String linkTypeName =
+                userLink.getType() == UserLink.LinkType.STUDENT ? "Student" : "Professor";
         holder.title.setText(linkTypeName);
         holder.description.setText(userLink.getDescription());
     }
@@ -42,15 +45,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
         return userLinks.size();
     }
 
-    public static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    public static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title, description;
 
         public RecyclerViewHolder(View view) {
-
             super(view);
-            title = (TextView) view.findViewById(R.id.item_title);
-            description = (TextView) view.findViewById(R.id.item_description);
+            title = view.findViewById(R.id.item_title);
+            description = view.findViewById(R.id.item_description);
+            view.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View view) {
+            itemListener.recyclerViewListClicked(view, this.getLayoutPosition());
+        }
     }
 }

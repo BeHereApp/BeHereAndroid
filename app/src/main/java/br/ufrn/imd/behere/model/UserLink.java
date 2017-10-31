@@ -1,8 +1,5 @@
-package br.ufrn.imd.behere;
+package br.ufrn.imd.behere.model;
 
-/**
- * Created by claudio on 30/10/17.
- */
 
 public class UserLink {
 

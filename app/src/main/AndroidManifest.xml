@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/BeHereTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/BeHereTheme.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LinkActivity" />
-        <activity android:name=".StudentChooseActivity" />
-        <activity android:name=".StudentPasswordActivity" />
-        <activity android:name=".StudentResultActivity" />
+        <activity android:name=".activities.LinkActivity" />
+        <activity android:name=".activities.StudentChooseActivity" />
+        <activity android:name=".activities.StudentPasswordActivity" />
+        <activity android:name=".activities.StudentResultActivity" />
     </application>
 
 </manifest>

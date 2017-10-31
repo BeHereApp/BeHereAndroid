@@ -1,9 +1,11 @@
-package br.ufrn.imd.behere;
+package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+
+import br.ufrn.imd.behere.R;
 
 public class StudentChooseActivity extends CustomActivity {
 
