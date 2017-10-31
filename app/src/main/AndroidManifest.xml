@@ -18,9 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LinkActivity" />
         <activity android:name=".StudentChooseActivity" />
         <activity android:name=".StudentPasswordActivity" />
-        <activity android:name=".StudentResultActivity"></activity>
+        <activity android:name=".StudentResultActivity" />
     </application>
 
 </manifest>
