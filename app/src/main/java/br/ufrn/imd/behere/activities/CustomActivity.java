@@ -1,9 +1,11 @@
-package br.ufrn.imd.behere;
+package br.ufrn.imd.behere.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+
+import br.ufrn.imd.behere.R;
 
 /**
  * An Abstract Activity with common configurations for all activities.

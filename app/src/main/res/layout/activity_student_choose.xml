@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     android:orientation="vertical"
-    tools:context="br.ufrn.imd.behere.StudentChooseActivity">
+    tools:context="br.ufrn.imd.behere.activities.StudentChooseActivity">
 
     <ImageButton
         android:id="@+id/btnQRCode"
