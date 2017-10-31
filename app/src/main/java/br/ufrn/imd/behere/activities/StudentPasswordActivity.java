@@ -17,7 +17,7 @@ public class StudentPasswordActivity extends CustomActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_password);
 
-        etPassword = (EditText) findViewById(R.id.etPassword);
+        etPassword = (EditText) findViewById(R.id.et_password);
 
         //adds back arrow to layout
         getSupportActionBar().setDisplayShowHomeEnabled(true);

@@ -31,8 +31,8 @@ public class StudentResultActivity extends AppCompatActivity {
         result = intent.getStringExtra(PASSWORD_RESULT);
 
         imgResult = (ImageView) findViewById(R.id.imgResult);
-        txtResult = (TextView) findViewById(R.id.txtResult);
-        btnResult = (Button) findViewById(R.id.btnResult);
+        txtResult = (TextView) findViewById(R.id.txt_result);
+        btnResult = (Button) findViewById(R.id.btn_result);
         checkResult();
     }
 

@@ -10,13 +10,13 @@
         android:id="@+id/imgResult"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_above="@+id/txtResult"
+        android:layout_above="@+id/txt_result"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
-        android:id="@+id/txtResult"
+        android:id="@+id/txt_result"
         style="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,10 +27,10 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnResult"
+        android:id="@+id/btn_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtResult"
+        android:layout_below="@+id/txt_result"
         android:layout_centerHorizontal="true"
         android:onClick="performResultAction"
         android:text="" />

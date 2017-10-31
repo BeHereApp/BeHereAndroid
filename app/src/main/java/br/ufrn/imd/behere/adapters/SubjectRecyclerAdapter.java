@@ -9,23 +9,23 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.ufrn.imd.behere.R;
-import br.ufrn.imd.behere.model.UserLink;
+import br.ufrn.imd.behere.model.Subject;
 import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.RecyclerViewHolder> {
+public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecyclerAdapter.RecyclerViewHolder> {
 
     private static RecyclerViewClickListener itemListener;
-    private ArrayList<UserLink> userLinks = new ArrayList<>();
+    private ArrayList<Subject> professorSubjects = new ArrayList<>();
 
-    public RecyclerAdapter(ArrayList<UserLink> userLinks, RecyclerViewClickListener itemListener) {
-        this.userLinks = userLinks;
+    public SubjectRecyclerAdapter(ArrayList<Subject> professorSubjects, RecyclerViewClickListener itemListener) {
+        this.professorSubjects = professorSubjects;
         this.itemListener = itemListener;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_layout, parent, false);
 
         return new RecyclerViewHolder(view);
     }
@@ -33,25 +33,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Recycl
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
-        UserLink userLink = userLinks.get(position);
-        String linkTypeName =
-                userLink.getType() == UserLink.LinkType.STUDENT ? "Student" : "Professor";
-        holder.title.setText(linkTypeName);
-        holder.description.setText(userLink.getDescription());
+        Subject subject = professorSubjects.get(position);
+        holder.schedule.append(subject.getSchedule());
+        holder.name.setText(subject.getName());
+        holder.location.append(subject.getLocation());
     }
 
     @Override
     public int getItemCount() {
-        return userLinks.size();
+        return professorSubjects.size();
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title, description;
+        TextView schedule, name, location;
 
         public RecyclerViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.item_title);
-            description = view.findViewById(R.id.item_description);
+            schedule = view.findViewById(R.id.subject_schedule);
+            name = view.findViewById(R.id.subject_name);
+            location = view.findViewById(R.id.subject_location);
             view.setOnClickListener(this);
         }
 
