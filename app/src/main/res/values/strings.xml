@@ -15,5 +15,10 @@
     </string>
     <string name="qrcode_desc">QR Code</string>
     <string name="password_desc">Password</string>
+    <string name="schedule_text">Schedule:</string>
+    <string name="subject_name_text">Subject Name</string>
+    <string name="location_text">Location:</string>
+    <string name="link_title_text">Link Title</string>
+    <string name="link_description_text">Link Description</string>
 
 </resources>
