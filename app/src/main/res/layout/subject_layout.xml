@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?android:selectableItemBackground"
-    android:orientation="vertical"
-    android:padding="10dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:clickable="true"
+              android:focusable="true"
+              android:foreground="?android:selectableItemBackgroundBorderless"
+              android:orientation="vertical"
+              android:padding="10dp">
 
     <TextView
         android:id="@+id/subject_schedule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Schedule: "
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="@string/schedule_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 
     <TextView
         android:id="@+id/subject_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="Subject Name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/subject_name_text"
+        android:textAppearance="?android:attr/textAppearanceListItem"/>
 
     <TextView
         android:id="@+id/subject_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location: "
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:text="@string/location_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"/>
 </LinearLayout>

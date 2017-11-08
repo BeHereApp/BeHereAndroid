@@ -25,7 +25,9 @@ public class LoginActivity extends CustomActivity {
     }
 
     public void setup() {
-        DatabaseInstance.createDBInstance(getApplicationContext());
+        if (DatabaseInstance.dbHelper == null) {
+            DatabaseInstance.createDBInstance(getApplicationContext());
+        }
 
         txtUsername = (EditText) findViewById(R.id.username);
         txtPassword = (EditText) findViewById(R.id.password);
