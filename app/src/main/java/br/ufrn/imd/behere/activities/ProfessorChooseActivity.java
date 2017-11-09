@@ -1,13 +1,11 @@
 package br.ufrn.imd.behere.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 
 import br.ufrn.imd.behere.R;
 
-public class StudentChooseActivity extends CustomActivity {
+public class ProfessorChooseActivity extends CustomActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +20,13 @@ public class StudentChooseActivity extends CustomActivity {
     }
 
     public void chooseQRCode(View v) {
-        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivity(camera);
+        toast("Not yet...");
     }
 
     public void choosePassword(View v) {
-        Intent intent = new Intent(StudentChooseActivity.this, StudentPasswordActivity.class);
-        startActivity(intent);
+        toast("Not yet...");
+        // Intent intent = new Intent(this, ProfessorPasswordActivity.class);
+        // startActivity(intent);
     }
 
 }

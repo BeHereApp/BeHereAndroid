@@ -2,7 +2,6 @@ package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import br.ufrn.imd.behere.R;
 
-public class StudentResultActivity extends AppCompatActivity {
+public class StudentResultActivity extends CustomActivity {
 
     public static final String PASSWORD_RESULT = "password_result";
     private ImageView imgResult;
@@ -40,13 +39,13 @@ public class StudentResultActivity extends AppCompatActivity {
         if (result.equals("password")) {
             resultSuccess = true;
             imgResult.setImageResource(R.drawable.positive_result);
-            txtResult.setText("Success");
-            btnResult.setText("Ok");
+            txtResult.setText(R.string.result_success);
+            btnResult.setText(R.string.result_ok);
         } else {
             resultSuccess = false;
             imgResult.setImageResource(R.drawable.negative_result);
-            txtResult.setText("Failed");
-            btnResult.setText("Try Again");
+            txtResult.setText(R.string.result_failed);
+            btnResult.setText(R.string.result_try_again);
         }
     }
 
