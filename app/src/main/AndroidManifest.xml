@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="br.ufrn.imd.behere">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="br.ufrn.imd.behere">
 
     <application
         android:allowBackup="true"
@@ -18,12 +19,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LinkActivity"/>
-        <activity android:name=".activities.StudentChooseActivity"/>
-        <activity android:name=".activities.StudentPasswordActivity"/>
-        <activity android:name=".activities.StudentResultActivity"/>
+        <activity android:name=".activities.LinkActivity" />
+        <activity android:name=".activities.StudentChooseActivity" />
+        <activity android:name=".activities.StudentPasswordActivity" />
+        <activity android:name=".activities.StudentResultActivity" />
         <activity android:name=".activities.ProfessorSubjectActivity"/>
         <activity android:name=".activities.ProfessorChooseActivity"/>
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
     </application>
 
 </manifest>
