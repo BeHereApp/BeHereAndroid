@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 public class LinkActivity extends CustomActivity implements RecyclerViewClickListener {
 
     private ArrayList<UserLink> userLinks;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,6 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         if (DatabaseInstance.dbHelper == null) {
             DatabaseInstance.createDBInstance(getApplicationContext());
         }
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_links);
         userLinks = new ArrayList<>();

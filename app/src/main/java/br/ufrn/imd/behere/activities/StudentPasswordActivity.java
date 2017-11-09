@@ -2,7 +2,6 @@ package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,18 +18,11 @@ public class StudentPasswordActivity extends CustomActivity {
 
         etPassword = (EditText) findViewById(R.id.et_password);
 
-        //adds back arrow to layout
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            this.finish();
+        // Adds back arrow to layout
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void enterPassword(View v) {

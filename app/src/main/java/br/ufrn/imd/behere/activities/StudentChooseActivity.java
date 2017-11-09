@@ -17,12 +17,18 @@ public class StudentChooseActivity extends CustomActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_choose);
+        setContentView(R.layout.activity_choose);
         setup();
     }
 
     public void setup() {
         qrScan = new IntentIntegrator(this);
+
+        // Adds back arrow to layout
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public void chooseQRCode(View v) {
