@@ -25,5 +25,9 @@
     <string name="result_success">Success</string>
     <string name="result_ok">Ok</string>
     <string name="logout_text">Logout</string>
+    <string name="set_password_text">Set Password</string>
+    <string name="timeout_text">Timeout (minutes)</string>
+    <string name="password_text">********</string>
+    <string name="enter_password_text">Enter Password</string>
 
 </resources>
