@@ -4,21 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import br.ufrn.imd.behere.R;
 
-public class ProfessorPasswordActivity extends CustomActivity {
+public class ProfessorQrCodeActivity extends CustomActivity {
 
-    private EditText etPassword;
     private EditText etTimeout;
+    private ImageView ivQrCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_professor_password);
+        setContentView(R.layout.activity_professor_qr_code);
 
-        etPassword = (EditText) findViewById(R.id.et_password);
         etTimeout = (EditText) findViewById(R.id.et_timeout);
+        ivQrCode = (ImageView) findViewById(R.id.iv_qrcode);
 
         // Adds back arrow to layout
         if (getSupportActionBar() != null) {
@@ -27,17 +28,14 @@ public class ProfessorPasswordActivity extends CustomActivity {
         }
     }
 
-    public void setPassword(View v) {
-        final String password = etPassword.getText().toString();
+    public void setQrCode(View view) {
         final String strTimeout = etTimeout.getText().toString();
 
-        if (!strTimeout.isEmpty() && !password.isEmpty()) {
+        if (!strTimeout.isEmpty()) {
             final Integer timeout = Integer.parseInt(strTimeout);
-            etPassword.setText("");
             etTimeout.setText("");
 
             Intent intent = new Intent(this, ProfessorResultActivity.class);
-            intent.putExtra(ProfessorResultActivity.PASSWORD_RESULT, password);
             intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, timeout);
             startActivity(intent);
             finish();

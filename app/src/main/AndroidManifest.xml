@@ -26,6 +26,7 @@
         <activity android:name=".activities.ProfessorSubjectActivity"/>
         <activity android:name=".activities.ProfessorChooseActivity"/>
         <activity android:name=".activities.ProfessorPasswordActivity"/>
+        <activity android:name=".activities.ProfessorQrCodeActivity"/>
         <activity android:name=".activities.ProfessorResultActivity"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"

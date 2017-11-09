@@ -38,6 +38,7 @@ public class ProfessorResultActivity extends CustomActivity {
 
     public void performProfessorResult(View v) {
         Intent intent = new Intent(this, ProfessorChooseActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
     }

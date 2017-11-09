@@ -29,5 +29,7 @@
     <string name="timeout_text">Timeout (minutes)</string>
     <string name="password_text">********</string>
     <string name="enter_password_text">Enter Password</string>
+    <string name="generated_qr_code_text">Generated QR COde</string>
+    <string name="set_qr_code_text">Set QR Code</string>
 
 </resources>
