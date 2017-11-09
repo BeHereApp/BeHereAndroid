@@ -37,6 +37,7 @@ public class StudentPasswordActivity extends CustomActivity {
         String userPassword = etPassword.getText().toString();
         Intent intent = new Intent(this, StudentResultActivity.class);
         intent.putExtra(StudentResultActivity.PASSWORD_RESULT, userPassword);
+        intent.putExtra(StudentResultActivity.CHOICE_TYPE, "password");
         startActivity(intent);
         etPassword.setText("");
         finish();
