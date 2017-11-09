@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:padding="50dp"
+              tools:context="br.ufrn.imd.behere.activities.ProfessorQrCodeActivity">
+
+    <EditText
+        android:id="@+id/et_timeout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/timeout_text"
+        android:inputType="number"
+        android:maxLength="3"/>
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/generated_qr_code_text"
+        android:src="@drawable/valid_qrcode"/>
+
+    <Button
+        android:id="@+id/btn_set_qrcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="setQrCode"
+        android:text="@string/set_qr_code_text"/>
+
+</LinearLayout>

@@ -21,7 +21,8 @@ public class ProfessorChooseActivity extends CustomActivity {
     }
 
     public void chooseQRCode(View v) {
-        toast("Not yet...");
+        Intent intent = new Intent(this, ProfessorQrCodeActivity.class);
+        startActivity(intent);
     }
 
     public void choosePassword(View v) {
