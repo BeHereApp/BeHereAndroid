@@ -49,7 +49,7 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
     }
 
     private void fetchDataDB() {
-        final int loggedUser = prefs.getInt("logged_user_id", 0);
+        final int loggedUser = prefs.getInt("logged_user_id", 1);
         Cursor cursor = DatabaseInstance.database.rawQuery(
                 "SELECT LINK_TYPE FROM USER_LINKS WHERE USER=" + loggedUser, null);
 
