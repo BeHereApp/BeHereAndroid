@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 
@@ -15,7 +14,6 @@ public class LoginActivity extends CustomActivity {
 
     private EditText txtUsername;
     private EditText txtPassword;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +29,6 @@ public class LoginActivity extends CustomActivity {
 
         txtUsername = (EditText) findViewById(R.id.username);
         txtPassword = (EditText) findViewById(R.id.password);
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
     public void signIn(View v) {
@@ -41,8 +37,6 @@ public class LoginActivity extends CustomActivity {
 
         String inputUsername = txtUsername.getText().toString();
         String inputPassword = txtPassword.getText().toString();
-        txtUsername.setText("");
-        txtPassword.setText("");
 
         while (result.moveToNext()) {
             int id = result.getInt(0);
@@ -50,10 +44,12 @@ public class LoginActivity extends CustomActivity {
             String password = result.getString(2);
 
             if (inputUsername.equals(username) && inputPassword.equals(password)) {
-                startActivity(intent);
+                txtUsername.setText("");
+                txtPassword.setText("");
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("logged_user_id", id);
                 editor.apply();
+                startActivity(intent);
             }
         }
         result.close();

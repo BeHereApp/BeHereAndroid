@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.ufrn.imd.behere.R;
 import br.ufrn.imd.behere.model.UserLink;
@@ -16,11 +17,11 @@ import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 public class LinkRecyclerAdapter extends RecyclerView.Adapter<LinkRecyclerAdapter.RecyclerViewHolder> {
 
     private static RecyclerViewClickListener itemListener;
-    private ArrayList<UserLink> userLinks = new ArrayList<>();
+    private List<UserLink> userLinks = new ArrayList<>();
 
-    public LinkRecyclerAdapter(ArrayList<UserLink> userLinks, RecyclerViewClickListener itemListener) {
+    public LinkRecyclerAdapter(List<UserLink> userLinks, RecyclerViewClickListener itemListener) {
         this.userLinks = userLinks;
-        this.itemListener = itemListener;
+        LinkRecyclerAdapter.itemListener = itemListener;
     }
 
     @Override
@@ -46,9 +47,10 @@ public class LinkRecyclerAdapter extends RecyclerView.Adapter<LinkRecyclerAdapte
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView title, description;
+        TextView title;
+        TextView description;
 
-        public RecyclerViewHolder(View view) {
+        RecyclerViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.subject_name);
             description = view.findViewById(R.id.link_description);
