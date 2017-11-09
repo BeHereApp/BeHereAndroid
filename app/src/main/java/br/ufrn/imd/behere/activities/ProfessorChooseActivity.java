@@ -1,5 +1,6 @@
 package br.ufrn.imd.behere.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -24,9 +25,8 @@ public class ProfessorChooseActivity extends CustomActivity {
     }
 
     public void choosePassword(View v) {
-        toast("Not yet...");
-        // Intent intent = new Intent(this, ProfessorPasswordActivity.class);
-        // startActivity(intent);
+        Intent intent = new Intent(this, ProfessorPasswordActivity.class);
+        startActivity(intent);
     }
 
 }
