@@ -1,5 +1,6 @@
 package br.ufrn.imd.behere.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -34,10 +35,10 @@ public class ProfessorQrCodeActivity extends CustomActivity {
             final Integer timeout = Integer.parseInt(strTimeout);
             etTimeout.setText("");
 
-            // Intent intent = new Intent(this, ProfessorResultActivity.class);
-            // intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, timeout);
-            // startActivity(intent);
-            // finish();
+            Intent intent = new Intent(this, ProfessorResultActivity.class);
+            intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, timeout);
+            startActivity(intent);
+            finish();
         }
     }
 }
