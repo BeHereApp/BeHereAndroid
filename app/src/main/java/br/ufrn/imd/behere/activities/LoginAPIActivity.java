@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -24,11 +23,18 @@ import static br.ufrn.imd.behere.utils.Constants.CLIENT_ID_VALUE;
 
 public class LoginAPIActivity extends CustomActivity {
 
-    private WebView wvLoginAPI;
-    private ProgressDialog progressDialog;
     public static final String QUESTION_MARK = "?";
     public static final String AMPERSAND = "&";
     public static final String EQUALS = "=";
+    private WebView wvLoginAPI;
+    private ProgressDialog progressDialog;
+
+    private static String getAuthorizationUrl() {
+        return Constants.AUTHORIZATION_URL + QUESTION_MARK + Constants.RESPONSE_TYPE_PARAM +
+               EQUALS + Constants.RESPONSE_TYPE_VALUE + AMPERSAND + Constants.CLIENT_ID_PARAM +
+               EQUALS + CLIENT_ID_VALUE + AMPERSAND + Constants.REDIRECT_URI_PARAM + EQUALS +
+               Constants.REDIRECT_URI;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +80,16 @@ public class LoginAPIActivity extends CustomActivity {
         wvLoginAPI.loadUrl(authUrl);
     }
 
-    private static String getAuthorizationUrl() {
-        return Constants.AUTHORIZATION_URL + QUESTION_MARK + Constants.RESPONSE_TYPE_PARAM +
-               EQUALS + Constants.RESPONSE_TYPE_VALUE + AMPERSAND + Constants.CLIENT_ID_PARAM +
-               EQUALS + CLIENT_ID_VALUE + AMPERSAND + Constants.REDIRECT_URI_PARAM + EQUALS +
-               Constants.REDIRECT_URI;
+    private void savePreferences(OAuthResponse response) {
+        String accessToken = response.getAccessToken();
+        String refreshToken = response.getRefreshToken();
+        Long expiresIn = response.getExpiresIn();
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
+        editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
+        editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
+        editor.apply();
     }
 
     private class PostRequestAsyncTask extends AsyncTask<String, Void, Boolean> {
@@ -122,17 +133,5 @@ public class LoginAPIActivity extends CustomActivity {
                 finish();
             }
         }
-    }
-
-    private void savePreferences(OAuthResponse response) {
-        String accessToken = response.getAccessToken();
-        String refreshToken = response.getRefreshToken();
-        Long expiresIn = response.getExpiresIn();
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
-        editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
-        editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
-        editor.apply();
     }
 }

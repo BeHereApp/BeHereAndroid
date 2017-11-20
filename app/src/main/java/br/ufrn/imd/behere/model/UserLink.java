@@ -3,19 +3,29 @@ package br.ufrn.imd.behere.model;
 
 public class UserLink {
 
-    private LinkType type;
+    private int id;
+    private String type;
     private String description;
 
-    public UserLink(LinkType type, String description) {
+    public UserLink(int id, String type, String description) {
+        this.id = id;
         this.type = type;
         this.description = description;
     }
 
-    public LinkType getType() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(LinkType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -25,10 +35,5 @@ public class UserLink {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public enum LinkType {
-        STUDENT,
-        PROFESSOR
     }
 }
