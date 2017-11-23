@@ -17,7 +17,7 @@ public class LoginActivity extends CustomActivity {
 
     public void setup() {
         String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
-        if(accessToken != null) {
+        if (accessToken != null) {
             Intent intent = new Intent(LoginActivity.this, LoginAPIActivity.class);
             startActivity(intent);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,9 +90,9 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
     public void recyclerViewListClicked(View v, int position) {
         Intent intent;
         SharedPreferences.Editor editor = prefs.edit();
-        if (userLinks.get(position).getType().equals("DISCENTE")) {
+        if (userLinks.get(position).getType().equals(UserLink.LinkType.STUDENT)) {
             intent = new Intent(this, StudentChooseActivity.class);
-            //editor.putInt("link_type", 2);
+            editor.putInt("link_id", userLinks.get(position).getId());
         } else {
             intent = new Intent(this, ProfessorSubjectActivity.class);
             editor.putInt("link_id", userLinks.get(position).getId());
@@ -110,7 +111,8 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
 
         @Override
         protected JSONArray doInBackground(String... params) {
-            String url = Constants.BASE_URL + "vinculo/v0.1/vinculos?id-usuario=" + idUser;
+            String url =
+                    Constants.BASE_URL + "vinculo/v0.1/vinculos?ativo=true&id-usuario=" + idUser;
             String accessToken = params[0];
 
             Get get = new Get();
@@ -137,14 +139,24 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject respLink = jsonArray.getJSONObject(i);
-                    UserLink links = new UserLink(respLink.getInt("id-vinculo"), respLink.getString("tipo-vinculo"), respLink.getString("lotacao"));
-                    userLinks.add(links);
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            if (jsonArray == null || jsonArray.length() == 0) {
+                TextView txtEmptyLinks = (TextView) findViewById(R.id.tv_empty_links);
+                txtEmptyLinks.setVisibility(View.VISIBLE);
+            } else {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject respLink = jsonArray.getJSONObject(i);
+                        if (respLink.getString("id-tipo-vinculo").equals("1")) {
+                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.student_link), UserLink.LinkType.STUDENT, respLink.getString("lotacao"));
+                            userLinks.add(links);
+                        } else if (respLink.getString("id-tipo-vinculo").equals("2")) {
+                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.professor_link), UserLink.LinkType.PROFESSOR, respLink.getString("lotacao"));
+                            userLinks.add(links);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

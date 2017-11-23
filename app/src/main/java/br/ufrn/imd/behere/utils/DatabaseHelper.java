@@ -33,9 +33,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void populateDatabase(SQLiteDatabase db) {
         // Create Users
-        /*db.execSQL("INSERT INTO USERS VALUES(1, 'admin', 'admin')");
+        db.execSQL("INSERT INTO USERS VALUES(1, 'admin', 'admin')");
         db.execSQL("INSERT INTO USERS VALUES(2, 'professor', 'professor')");
-        db.execSQL("INSERT INTO USERS VALUES(3, 'student', 'student')");*/
+        db.execSQL("INSERT INTO USERS VALUES(3, 'student', 'student')");
 
         // Create Subjects
         db.execSQL("INSERT INTO SUBJECTS VALUES(1, '35T12', 'DESENVOLVIMENTO DE SISTEMAS PARA DISPOSITIVOS MÓVEIS', 'A309 - CIVT')");
@@ -49,8 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Links
         db.execSQL("INSERT INTO USER_LINKS VALUES(1, 1, 1)");
         db.execSQL("INSERT INTO USER_LINKS VALUES(2, 1, 2)");
-        db.execSQL("INSERT INTO USER_LINKS VALUES(3, 2, 1)");
-        db.execSQL("INSERT INTO USER_LINKS VALUES(4, 3, 2)");
+        db.execSQL("INSERT INTO USER_LINKS VALUES(3, 2, 2)");
+        db.execSQL("INSERT INTO USER_LINKS VALUES(4, 3, 1)");
 
         // Relates Users and Subjects
         int id = 1;
