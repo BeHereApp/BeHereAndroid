@@ -49,8 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create Links
         db.execSQL("INSERT INTO USER_LINKS VALUES(1, 1, 1)");
         db.execSQL("INSERT INTO USER_LINKS VALUES(2, 1, 2)");
-        db.execSQL("INSERT INTO USER_LINKS VALUES(3, 2, 1)");
-        db.execSQL("INSERT INTO USER_LINKS VALUES(4, 3, 2)");
+        db.execSQL("INSERT INTO USER_LINKS VALUES(3, 2, 2)");
+        db.execSQL("INSERT INTO USER_LINKS VALUES(4, 3, 1)");
 
         // Relates Users and Subjects
         int id = 1;

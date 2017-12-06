@@ -6,12 +6,14 @@ import android.database.sqlite.SQLiteDatabase;
 public class DatabaseInstance {
 
     public static DatabaseHelper dbHelper;
-    public static SQLiteDatabase database;
+    public static SQLiteDatabase databaseRead;
+    public static SQLiteDatabase databaseWrite;
 
     public static void createDBInstance(Context context) {
         if (dbHelper == null) {
             dbHelper = new DatabaseHelper(context);
-            database = dbHelper.getReadableDatabase();
+            databaseRead = dbHelper.getReadableDatabase();
+            databaseWrite = dbHelper.getWritableDatabase();
         }
     }
 }

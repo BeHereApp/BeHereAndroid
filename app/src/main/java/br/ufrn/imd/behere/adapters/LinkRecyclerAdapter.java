@@ -35,9 +35,7 @@ public class LinkRecyclerAdapter extends RecyclerView.Adapter<LinkRecyclerAdapte
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
 
         UserLink userLink = userLinks.get(position);
-        String linkTypeName =
-                userLink.getType() == UserLink.LinkType.STUDENT ? "Student" : "Professor";
-        holder.title.setText(linkTypeName);
+        holder.title.setText(userLink.getName());
         holder.description.setText(userLink.getDescription());
     }
 
