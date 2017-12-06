@@ -47,6 +47,7 @@ public abstract class CustomActivity extends AppCompatActivity {
         final int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
+            return true;
         } else if (id == R.id.menu_logout) {
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();

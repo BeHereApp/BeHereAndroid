@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,9 +15,11 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import br.ufrn.imd.behere.R;
+import br.ufrn.imd.behere.utils.RandomString;
 
 public class ProfessorQrCodeActivity extends CustomActivity {
 
+    private static final String TAG = ProfessorQrCodeActivity.class.getName();
     private EditText etTimeout;
     private ImageView ivQrCode;
 
@@ -39,8 +42,12 @@ public class ProfessorQrCodeActivity extends CustomActivity {
 
     private void createQrCode() {
         QRCodeWriter writer = new QRCodeWriter();
+        int subjectId = prefs.getInt("selected_subject", 0);
+        RandomString random = new RandomString(10);
+        int timeout = 1;
+
         try {
-            String s = "Presenca confirmada";
+            String s = subjectId + ";" + random.nextString() + ";" + timeout;
             BitMatrix bitMatrix = writer.encode(s, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
@@ -54,7 +61,7 @@ public class ProfessorQrCodeActivity extends CustomActivity {
             ivQrCode.setImageBitmap(bmp);
 
         } catch (WriterException e) {
-            e.printStackTrace();
+            Log.e(TAG, "createQrCode: WriterException", e);
         }
     }
 
