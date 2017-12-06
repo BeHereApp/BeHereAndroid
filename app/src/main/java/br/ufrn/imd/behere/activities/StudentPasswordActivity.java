@@ -27,11 +27,14 @@ public class StudentPasswordActivity extends CustomActivity {
 
     public void enterPassword(View v) {
         String userPassword = etPassword.getText().toString();
-        Intent intent = new Intent(this, StudentResultActivity.class);
-        intent.putExtra(StudentResultActivity.PASSWORD_RESULT, userPassword);
-        intent.putExtra(StudentResultActivity.CHOICE_TYPE, "password");
-        startActivity(intent);
-        etPassword.setText("");
-        finish();
+
+        if (!userPassword.isEmpty()) {
+            etPassword.setText("");
+            Intent intent = new Intent(this, StudentResultActivity.class);
+            intent.putExtra(StudentResultActivity.PASSWORD_RESULT, userPassword);
+            intent.putExtra(StudentResultActivity.CHOICE_TYPE, "password");
+            startActivity(intent);
+            finish();
+        }
     }
 }
