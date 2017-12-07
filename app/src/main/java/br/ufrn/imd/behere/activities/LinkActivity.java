@@ -45,14 +45,6 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         setup();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
     private void setup() {
         if (DatabaseInstance.dbHelper == null) {
             DatabaseInstance.createDBInstance(getApplicationContext());
@@ -87,17 +79,23 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
 
         while (cursor.moveToNext()) {
             final int linkId = cursor.getInt(0);
-            final UserLink.LinkType linkType =
-                    cursor.getInt(1) == 1 ? UserLink.LinkType.STUDENT : UserLink.LinkType.PROFESSOR;
+            final UserLink.LinkType linkType = cursor.getInt(1) == 1 ? UserLink.LinkType.STUDENT : UserLink.LinkType.PROFESSOR;
             final String linkDescription = cursor.getString(2);
-            final String linkName = linkType ==
-                                    UserLink.LinkType.PROFESSOR ? getString(R.string.professor_link) : getString(R.string.student_link);
+            final String linkName =
+                    linkType == UserLink.LinkType.PROFESSOR ? getString(R.string.professor_link) : getString(R.string.student_link);
             userLinks.add(new UserLink(linkId, linkName, linkType, linkDescription));
         }
         Log.i(TAG, "fetchDataDB: " + userLinks.size() + " links fetched from database");
         cursor.close();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
 
     @Override
     public void recyclerViewListClicked(View v, int position) {
@@ -120,8 +118,7 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         @Override
         protected JSONArray doInBackground(String... params) {
             //Long idUser = prefs.getLong("id_user", 0);
-            String url =
-                    Constants.BASE_URL + "vinculo/v0.1/vinculos?ativo=true&id-usuario=" + idUser;
+            String url = Constants.BASE_URL + "vinculo/v0.1/vinculos?ativo=true&id-usuario=" + idUser;
             String accessToken = params[0];
 
             WebService get = new WebService();
@@ -168,10 +165,12 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
                     try {
                         JSONObject respLink = jsonArray.getJSONObject(i);
                         if (respLink.getString("id-tipo-vinculo").equals("1")) {
-                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.student_link), UserLink.LinkType.STUDENT, respLink.getString("lotacao"));
+                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.student_link),
+                                    UserLink.LinkType.STUDENT, respLink.getString("lotacao"));
                             newUserLinks.add(links);
                         } else if (respLink.getString("id-tipo-vinculo").equals("2")) {
-                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.professor_link), UserLink.LinkType.PROFESSOR, respLink.getString("lotacao"));
+                            UserLink links = new UserLink(respLink.getInt("id-vinculo"), getString(R.string.professor_link),
+                                    UserLink.LinkType.PROFESSOR, respLink.getString("lotacao"));
                             newUserLinks.add(links);
                         }
                     } catch (JSONException e) {

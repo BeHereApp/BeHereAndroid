@@ -48,15 +48,6 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         setup();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
-
     private void setup() {
         if (DatabaseInstance.dbHelper == null) {
             DatabaseInstance.createDBInstance(getApplicationContext());
@@ -107,6 +98,14 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         }
         Log.i(TAG, "fetchDataDB: " + professorSubjects.size() + " subjects fetched from database");
         cursor.close();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     @Override

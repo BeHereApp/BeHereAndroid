@@ -97,11 +97,6 @@ public class StudentResultActivity extends CustomActivity {
     public class AttendeeTask extends AsyncTask<String, Void, String> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected String doInBackground(String... params) {
             Long userId = prefs.getLong("user_id", 0);
 
@@ -123,6 +118,11 @@ public class StudentResultActivity extends CustomActivity {
                 Log.e(TAG, "doInBackground: ", e);
             }
             return responseData;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override

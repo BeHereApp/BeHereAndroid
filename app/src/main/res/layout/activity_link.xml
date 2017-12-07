@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="br.ufrn.imd.behere.activities.LinkActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="br.ufrn.imd.behere.activities.LinkActivity">
 
     <TextView
         android:id="@+id/tv_empty_links"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_links"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_links"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/tv_empty_links"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 </RelativeLayout>

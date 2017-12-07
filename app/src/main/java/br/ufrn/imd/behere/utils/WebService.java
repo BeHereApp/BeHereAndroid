@@ -15,6 +15,23 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class WebService {
 
+    public String get(String urlInfo, String token, String apiKey) throws IOException {
+
+        String response;
+
+        URL url = new URL(urlInfo);
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("authorization", "bearer " + token);
+        connection.setRequestProperty("x-api-key", apiKey);
+
+        InputStream in = new BufferedInputStream(connection.getInputStream());
+        response = convertStreamToString(in);
+
+        return response;
+    }
+
     public static String convertStreamToString(InputStream is) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
@@ -35,23 +52,6 @@ public class WebService {
         }
 
         return sb.toString();
-    }
-
-    public String get(String urlInfo, String token, String apiKey) throws IOException {
-
-        String response;
-
-        URL url = new URL(urlInfo);
-
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("authorization", "bearer " + token);
-        connection.setRequestProperty("x-api-key", apiKey);
-
-        InputStream in = new BufferedInputStream(connection.getInputStream());
-        response = convertStreamToString(in);
-
-        return response;
     }
 
     public String sendGet(String urlInfo) throws IOException {

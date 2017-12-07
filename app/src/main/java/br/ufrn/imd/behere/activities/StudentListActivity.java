@@ -24,17 +24,12 @@ import br.ufrn.imd.behere.utils.WebService;
 
 public class StudentListActivity extends CustomActivity {
 
-    private static final String TAG = StudentListActivity.class.getName();
     public static final String SUBJECT_EXTRA = "subject_extra";
+    private static final String TAG = StudentListActivity.class.getName();
     private SwipeRefreshLayout swipeRefreshStudents;
     private ArrayList<Student> students;
     private RecyclerView.Adapter adapter;
     private long subjectId;
-
-    void refreshItems() {
-        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
-        new RefreshItemsTask().execute(accessToken);
-    }
 
     void onItemsLoadComplete(List<Student> studentsList) {
         students.clear();
@@ -84,6 +79,11 @@ public class StudentListActivity extends CustomActivity {
 
         swipeRefreshStudents.setRefreshing(true);
         refreshItems();
+    }
+
+    void refreshItems() {
+        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+        new RefreshItemsTask().execute(accessToken);
     }
 
     public class RefreshItemsTask extends AsyncTask<String, Void, List<Student>> {

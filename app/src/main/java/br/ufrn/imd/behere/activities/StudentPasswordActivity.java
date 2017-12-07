@@ -46,15 +46,6 @@ public class StudentPasswordActivity extends CustomActivity {
         setup();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-    }
-
     private void setup() {
         // Adds back arrow to layout
         if (getSupportActionBar() != null) {
@@ -112,6 +103,15 @@ public class StudentPasswordActivity extends CustomActivity {
         };
         subjectsAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spSubjects.setAdapter(subjectsAdapter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     public void enterPassword(View v) {

@@ -1,21 +1,11 @@
 package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 
 import br.ufrn.imd.behere.R;
-import br.ufrn.imd.behere.utils.RandomString;
 
 public class ProfessorQrCodeActivity extends CustomActivity {
 

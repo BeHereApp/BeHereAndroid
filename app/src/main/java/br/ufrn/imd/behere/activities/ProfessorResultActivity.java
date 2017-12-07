@@ -67,13 +67,6 @@ public class ProfessorResultActivity extends CustomActivity {
         }
     }
 
-    public void performProfessorResult(View v) {
-        Intent intent = new Intent(this, ProfessorChooseActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
-    }
-
     private void createQrCode() {
         QRCodeWriter writer = new QRCodeWriter();
         long subjectId = prefs.getLong("selected_subject", 0);
@@ -101,6 +94,13 @@ public class ProfessorResultActivity extends CustomActivity {
         }
     }
 
+    public void performProfessorResult(View v) {
+        Intent intent = new Intent(this, ProfessorChooseActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
     public void performStudentList(View v) {
         Intent intent = new Intent(this, StudentListActivity.class);
         intent.putExtra(StudentListActivity.SUBJECT_EXTRA, prefs.getLong("selected_subject", 0));
@@ -108,11 +108,6 @@ public class ProfessorResultActivity extends CustomActivity {
     }
 
     public class AttendanceTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected Void doInBackground(String... params) {
@@ -138,6 +133,10 @@ public class ProfessorResultActivity extends CustomActivity {
             return null;
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
