@@ -20,7 +20,7 @@ import java.util.Map;
 
 import br.ufrn.imd.behere.R;
 import br.ufrn.imd.behere.utils.Constants;
-import br.ufrn.imd.behere.utils.Get;
+import br.ufrn.imd.behere.utils.WebService;
 import ca.mimic.oauth2library.OAuth2Client;
 import ca.mimic.oauth2library.OAuthResponse;
 
@@ -156,12 +156,12 @@ public class LoginAPIActivity extends CustomActivity {
             String url = "usuario/v0.1/usuarios/info";
             String accessToken = params[0];
 
-            Get get = new Get();
+            WebService get = new WebService();
 
             String reqUrl = Constants.BASE_URL + url;
             String jsonStr = null;
             try {
-                jsonStr = get.serviceCall(reqUrl, accessToken, API_KEY);
+                jsonStr = get.get(reqUrl, accessToken, API_KEY);
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }

@@ -95,7 +95,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                 idUser, null);
 
         while (cursor.moveToNext()) {
-            final int id = cursor.getInt(0);
+            final Long id = cursor.getLong(0);
             final String name = cursor.getString(1);
             final String schedule = cursor.getString(2);
             final String location = cursor.getString(3);
