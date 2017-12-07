@@ -24,15 +24,12 @@ import br.ufrn.imd.behere.utils.WebService;
 
 public class StudentListActivity extends CustomActivity {
 
+    public static final String SUBJECT_EXTRA = "subject_extra";
     private static final String TAG = StudentListActivity.class.getName();
     private SwipeRefreshLayout swipeRefreshStudents;
     private ArrayList<Student> students;
     private RecyclerView.Adapter adapter;
-
-    void refreshItems() {
-        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
-        new RefreshItemsTask().execute(accessToken);
-    }
+    private long subjectId;
 
     void onItemsLoadComplete(List<Student> studentsList) {
         students.clear();
@@ -52,6 +49,14 @@ public class StudentListActivity extends CustomActivity {
     }
 
     private void setup() {
+        // Adds back arrow to layout
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        subjectId = getIntent().getLongExtra(SUBJECT_EXTRA, 0);
+
         final RecyclerView recyclerView = findViewById(R.id.rv_students);
         students = new ArrayList<>();
 
@@ -72,14 +77,20 @@ public class StudentListActivity extends CustomActivity {
             }
         });
 
+        swipeRefreshStudents.setRefreshing(true);
         refreshItems();
+    }
+
+    void refreshItems() {
+        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+        new RefreshItemsTask().execute(accessToken);
     }
 
     public class RefreshItemsTask extends AsyncTask<String, Void, List<Student>> {
 
         @Override
         protected List<Student> doInBackground(String... strings) {
-            String url1 = "https://behereapi-eltonvs1.c9users.io/api/attendances/4";
+            String url1 = "https://behereapi-eltonvs1.c9users.io/api/attendances/" + subjectId;
 
             WebService get = new WebService();
             String response = null;

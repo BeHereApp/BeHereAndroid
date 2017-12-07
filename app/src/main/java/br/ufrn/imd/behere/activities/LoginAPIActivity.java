@@ -34,26 +34,11 @@ public class LoginAPIActivity extends CustomActivity {
     private WebView wvLoginAPI;
     private ProgressDialog progressDialog;
 
-    private static String getAuthorizationUrl() {
-        return Constants.AUTHORIZATION_URL + QUESTION_MARK + Constants.RESPONSE_TYPE_PARAM +
-               EQUALS + Constants.RESPONSE_TYPE_VALUE + AMPERSAND + Constants.CLIENT_ID_PARAM +
-               EQUALS + CLIENT_ID_VALUE + AMPERSAND + Constants.REDIRECT_URI_PARAM + EQUALS +
-               Constants.REDIRECT_URI;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_api);
         setup();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
     }
 
     public void setup() {
@@ -63,13 +48,6 @@ public class LoginAPIActivity extends CustomActivity {
         progressDialog = ProgressDialog.show(this, "", "Loading", true);
 
         wvLoginAPI.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-            }
-
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String authorizationUrl) {
                 if (authorizationUrl.startsWith(Constants.REDIRECT_URI)) {
@@ -87,18 +65,34 @@ public class LoginAPIActivity extends CustomActivity {
 
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+            }
         });
 
         String authUrl = getAuthorizationUrl();
         wvLoginAPI.loadUrl(authUrl);
     }
 
-    private class PostRequestAsyncTask extends AsyncTask<String, Void, Boolean> {
+    private static String getAuthorizationUrl() {
+        return Constants.AUTHORIZATION_URL + QUESTION_MARK + Constants.RESPONSE_TYPE_PARAM + EQUALS + Constants.RESPONSE_TYPE_VALUE +
+               AMPERSAND + Constants.CLIENT_ID_PARAM + EQUALS + CLIENT_ID_VALUE + AMPERSAND + Constants.REDIRECT_URI_PARAM + EQUALS +
+               Constants.REDIRECT_URI;
+    }
 
-        @Override
-        protected void onPreExecute() {
-            ProgressDialog.show(LoginAPIActivity.this, "", "Loading", true);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
         }
+    }
+
+    private class PostRequestAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... strings) {
@@ -107,7 +101,8 @@ public class LoginAPIActivity extends CustomActivity {
             map.put(Constants.REDIRECT_URI_PARAM, Constants.REDIRECT_URI);
             map.put(Constants.RESPONSE_TYPE_VALUE, strings[0]);
 
-            client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL).grantType(Constants.GRANT_TYPE).parameters(map).build();
+            client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL).grantType(
+                    Constants.GRANT_TYPE).parameters(map).build();
 
             try {
                 OAuthResponse response = client.requestAccessToken();
@@ -120,6 +115,21 @@ public class LoginAPIActivity extends CustomActivity {
             }
 
             return false;
+        }        @Override
+        protected void onPreExecute() {
+            ProgressDialog.show(LoginAPIActivity.this, "", "Loading", true);
+        }
+
+        private void savePreferences(OAuthResponse response) {
+            String accessToken = response.getAccessToken();
+            String refreshToken = response.getRefreshToken();
+            Long expiresIn = response.getExpiresIn();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
+            editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
+            editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
+            editor.apply();
         }
 
         @Override
@@ -136,17 +146,7 @@ public class LoginAPIActivity extends CustomActivity {
             }
         }
 
-        private void savePreferences(OAuthResponse response) {
-            String accessToken = response.getAccessToken();
-            String refreshToken = response.getRefreshToken();
-            Long expiresIn = response.getExpiresIn();
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
-            editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
-            editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
-            editor.apply();
-        }
     }
 
     public class UserInfoTask extends AsyncTask<String, Void, JSONObject> {

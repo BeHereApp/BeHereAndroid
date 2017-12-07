@@ -1,15 +1,11 @@
 package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import br.ufrn.imd.behere.R;
-import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorPasswordActivity extends CustomActivity {
 

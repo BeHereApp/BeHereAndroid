@@ -17,6 +17,13 @@ public class RandomString {
     private final Random random;
     private final char[] symbols;
 
+    /**
+     * Create an alphanumeric string generator.
+     */
+    public RandomString(int length) {
+        this(length, ALPHANUM);
+    }
+
     public RandomString(int length, String symbols) {
         if (length < 1) {
             throw new IllegalArgumentException();
@@ -27,13 +34,6 @@ public class RandomString {
         this.length = length;
         this.random = new Random();
         this.symbols = symbols.toCharArray();
-    }
-
-    /**
-     * Create an alphanumeric string generator.
-     */
-    public RandomString(int length) {
-        this(length, ALPHANUM);
     }
 
     /**

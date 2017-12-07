@@ -51,8 +51,8 @@ public class StudentChooseActivity extends CustomActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(this, StudentResultActivity.class);
-                intent.putExtra(StudentResultActivity.PASSWORD_RESULT, result.getContents());
-                intent.putExtra(StudentResultActivity.CHOICE_TYPE, "qrcode");
+                intent.putExtra(StudentResultActivity.RESULT_PASS, result.getContents());
+                intent.putExtra(StudentResultActivity.CHOICE_TYPE, StudentResultActivity.TYPE_QR_CODE);
                 startActivity(intent);
             }
         } else {

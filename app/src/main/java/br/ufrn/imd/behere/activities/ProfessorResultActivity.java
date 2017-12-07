@@ -49,29 +49,22 @@ public class ProfessorResultActivity extends CustomActivity {
         txtResult = findViewById(R.id.txt_professor_result);
         btnResult = findViewById(R.id.btn_professor_result);
 
-        //password = intent.getStringExtra(PASSWORD_RESULT);
+        password = intent.getStringExtra(PASSWORD_RESULT);
         strTimeout = intent.getStringExtra(TIMEOUT_RESULT);
         resultChoice = intent.getIntExtra(CHOICE_RESULT, -1);
 
         txtResult.setText(R.string.result_success);
         btnResult.setText(R.string.result_ok);
 
-        if(resultChoice == 1) {
+        if (resultChoice == 1) {
             createQrCode();
-        } else if(resultChoice == 2) {
+        } else if (resultChoice == 2) {
             imgResult.setVisibility(View.VISIBLE);
         }
 
-        if(password != null) {
+        if (password != null) {
             new AttendanceTask().execute();
         }
-    }
-
-    public void performProfessorResult(View v) {
-        Intent intent = new Intent(this, ProfessorChooseActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 
     private void createQrCode() {
@@ -101,34 +94,35 @@ public class ProfessorResultActivity extends CustomActivity {
         }
     }
 
-    public void performStudentList(View v) {
-        Intent intent = new Intent(this, StudentListActivity.class);
+    public void performProfessorResult(View v) {
+        Intent intent = new Intent(this, ProfessorChooseActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    public void performStudentList(View v) {
+        Intent intent = new Intent(this, StudentListActivity.class);
+        intent.putExtra(StudentListActivity.SUBJECT_EXTRA, prefs.getLong("selected_subject", 0));
+        startActivity(intent);
     }
 
     public class AttendanceTask extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected Void doInBackground(String... params) {
             String url = "https://behereapi-eltonvs1.c9users.io/api/attendances/";
             Long currentDate = System.currentTimeMillis();
-            Long class_id = prefs.getLong("selected_subject", 0);
+            Long classId = prefs.getLong("selected_subject", 0);
             Long userId = prefs.getLong("user_id", 0);
 
             WebService post = new WebService();
 
             try {
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("date", currentDate.toString())
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("date", currentDate.toString())
                         .appendQueryParameter("professor_id", userId.toString())
-                        .appendQueryParameter("attendance_id", "4")
-                        .appendQueryParameter("class_id", class_id.toString())
+                        .appendQueryParameter("attendance_id", classId.toString())
+                        .appendQueryParameter("class_id", classId.toString())
                         .appendQueryParameter("starting_date", currentDate.toString())
                         .appendQueryParameter("timeout", strTimeout)
                         .appendQueryParameter("password", password);
@@ -139,6 +133,10 @@ public class ProfessorResultActivity extends CustomActivity {
             return null;
         }
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
