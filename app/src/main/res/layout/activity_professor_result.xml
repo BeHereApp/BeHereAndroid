@@ -13,6 +13,7 @@
         android:layout_above="@+id/txt_professor_result"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
+        android:visibility="invisible"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
@@ -25,6 +26,18 @@
         android:text="Result"
         android:textSize="20dp"
         android:textStyle="bold" />
+
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:layout_above="@+id/txt_professor_result"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:visibility="invisible"
+        android:contentDescription="@string/generated_qr_code_text"/>
 
     <Button
         android:id="@+id/btn_professor_result"
