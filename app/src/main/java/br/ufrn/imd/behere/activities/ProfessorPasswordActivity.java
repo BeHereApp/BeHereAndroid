@@ -43,6 +43,7 @@ public class ProfessorPasswordActivity extends CustomActivity {
             Intent intent = new Intent(this, ProfessorResultActivity.class);
             intent.putExtra(ProfessorResultActivity.PASSWORD_RESULT, password);
             intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, strTimeout);
+            intent.putExtra(ProfessorResultActivity.CHOICE_RESULT, 2);
             startActivity(intent);
             finish();
         }

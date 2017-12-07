@@ -1,6 +1,8 @@
 package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,18 +12,27 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
 import br.ufrn.imd.behere.R;
+import br.ufrn.imd.behere.utils.RandomString;
 import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorResultActivity extends CustomActivity {
 
     public static final String PASSWORD_RESULT = "password_result";
     public static final String TIMEOUT_RESULT = "timeout_result";
+    public static final String CHOICE_RESULT = "choice_result";
+    private ImageView ivQrCode;
     private ImageView imgResult;
     private TextView txtResult;
     private Button btnResult;
     private String password;
     private String strTimeout;
+    private int resultChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +45,26 @@ public class ProfessorResultActivity extends CustomActivity {
         Intent intent = getIntent();
 
         imgResult = findViewById(R.id.img_professor_result);
+        ivQrCode = findViewById(R.id.iv_qrcode);
         txtResult = findViewById(R.id.txt_professor_result);
         btnResult = findViewById(R.id.btn_professor_result);
 
-        password = intent.getStringExtra(PASSWORD_RESULT);
+        //password = intent.getStringExtra(PASSWORD_RESULT);
         strTimeout = intent.getStringExtra(TIMEOUT_RESULT);
+        resultChoice = intent.getIntExtra(CHOICE_RESULT, -1);
 
-        imgResult.setImageResource(R.drawable.positive_result);
         txtResult.setText(R.string.result_success);
         btnResult.setText(R.string.result_ok);
 
-        new AttendanceTask().execute();
+        if(resultChoice == 1) {
+            createQrCode();
+        } else if(resultChoice == 2) {
+            imgResult.setVisibility(View.VISIBLE);
+        }
+
+        if(password != null) {
+            new AttendanceTask().execute();
+        }
     }
 
     public void performProfessorResult(View v) {
@@ -52,6 +72,33 @@ public class ProfessorResultActivity extends CustomActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    private void createQrCode() {
+        QRCodeWriter writer = new QRCodeWriter();
+        long subjectId = prefs.getLong("selected_subject", 0);
+        RandomString random = new RandomString(10);
+        strTimeout = "200";
+
+        try {
+            password = random.nextString();
+            String s = subjectId + ";" + password + ";" + strTimeout;
+            BitMatrix bitMatrix = writer.encode(s, BarcodeFormat.QR_CODE, 512, 512);
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+            Bitmap bmp;
+            bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            ivQrCode.setVisibility(View.VISIBLE);
+            ivQrCode.setImageBitmap(bmp);
+
+        } catch (WriterException e) {
+            Log.e(TAG, "createQrCode: WriterException", e);
+        }
     }
 
     public void performStudentList(View v) {
