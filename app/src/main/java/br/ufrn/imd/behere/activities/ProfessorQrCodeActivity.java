@@ -22,6 +22,8 @@ public class ProfessorQrCodeActivity extends CustomActivity {
     private static final String TAG = ProfessorQrCodeActivity.class.getName();
     private EditText etTimeout;
     private ImageView ivQrCode;
+    private String password;
+    private String strTimeout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,11 @@ public class ProfessorQrCodeActivity extends CustomActivity {
         QRCodeWriter writer = new QRCodeWriter();
         long subjectId = prefs.getLong("selected_subject", 0);
         RandomString random = new RandomString(10);
-        int timeout = 1;
+        strTimeout = "200";
 
         try {
-            String s = subjectId + ";" + random.nextString() + ";" + timeout;
+            password = random.nextString();
+            String s = subjectId + ";" + password + ";" + strTimeout;
             BitMatrix bitMatrix = writer.encode(s, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
@@ -66,14 +69,15 @@ public class ProfessorQrCodeActivity extends CustomActivity {
     }
 
     public void setQrCode(View view) {
-        final String strTimeout = etTimeout.getText().toString();
+        //final String strTimeout = etTimeout.getText().toString();
 
         if (!strTimeout.isEmpty()) {
             final Integer timeout = Integer.parseInt(strTimeout);
             etTimeout.setText("");
 
             Intent intent = new Intent(this, ProfessorResultActivity.class);
-            intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, timeout);
+            intent.putExtra(ProfessorResultActivity.PASSWORD_RESULT, password);
+            intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, strTimeout);
             startActivity(intent);
             finish();
         }
