@@ -54,6 +54,21 @@ public class WebService {
         return response;
     }
 
+    public String sendGet(String urlInfo) throws IOException {
+
+        String response;
+
+        URL url = new URL(urlInfo);
+
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        InputStream in = new BufferedInputStream(connection.getInputStream());
+        response = convertStreamToString(in);
+
+        return response;
+    }
+
     public String sendPost(String urlInfo, String query, Context context) {
         // Send data
         InputStream inputStream;

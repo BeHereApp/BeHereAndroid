@@ -35,4 +35,6 @@
     <string name="professor_link">DOCENTE</string>
     <string name="no_links">Nenhum vínculo Cadastrado</string>
     <string name="no_subjects">Nenhuma disciplina Cadastrada</string>
+    <string name="no_students">Nenhum aluno encontrado.</string>
+    <string name="student_name_text">Student Name</string>
 </resources>

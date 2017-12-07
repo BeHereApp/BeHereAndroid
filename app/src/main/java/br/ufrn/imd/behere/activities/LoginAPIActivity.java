@@ -184,7 +184,7 @@ public class LoginAPIActivity extends CustomActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             try {
                 long userId = jsonObject.getLong("id-usuario");
-                toast(jsonObject.getString("nome-pessoa") + ": " + userId);
+                // toast(jsonObject.getString("nome-pessoa") + ": " + userId);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putLong("user_id", userId);
                 editor.apply();
