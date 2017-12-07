@@ -3,7 +3,6 @@ package br.ufrn.imd.behere.activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,10 +44,10 @@ public class ProfessorResultActivity extends CustomActivity {
     public void setup() {
         Intent intent = getIntent();
 
-        imgResult = (ImageView) findViewById(R.id.img_professor_result);
-        ivQrCode = (ImageView) findViewById(R.id.iv_qrcode);
-        txtResult = (TextView) findViewById(R.id.txt_professor_result);
-        btnResult = (Button) findViewById(R.id.btn_professor_result);
+        imgResult = findViewById(R.id.img_professor_result);
+        ivQrCode = findViewById(R.id.iv_qrcode);
+        txtResult = findViewById(R.id.txt_professor_result);
+        btnResult = findViewById(R.id.btn_professor_result);
 
         //password = intent.getStringExtra(PASSWORD_RESULT);
         strTimeout = intent.getStringExtra(TIMEOUT_RESULT);
@@ -100,6 +99,12 @@ public class ProfessorResultActivity extends CustomActivity {
         } catch (WriterException e) {
             Log.e(TAG, "createQrCode: WriterException", e);
         }
+    }
+
+    public void performStudentList(View v) {
+        Intent intent = new Intent(this, StudentListActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public class AttendanceTask extends AsyncTask<String, Void, Void> {
