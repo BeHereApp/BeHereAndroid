@@ -128,7 +128,7 @@ public class LoginAPIActivity extends CustomActivity {
             }
 
             if (status) {
-                Intent intent = new Intent(LoginAPIActivity.this, LinkActivity.class);
+                Intent intent = new Intent(LoginAPIActivity.this, LoadUserActivity.class);
                 startActivity(intent);
                 finish();
             }
