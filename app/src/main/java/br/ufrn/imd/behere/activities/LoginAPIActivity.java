@@ -43,6 +43,14 @@ public class LoginAPIActivity extends CustomActivity {
         setup();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
     public void setup() {
         wvLoginAPI = (WebView) findViewById(R.id.wv_login_api);
         wvLoginAPI.requestFocus(View.FOCUS_DOWN);

@@ -75,7 +75,6 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
 
         if (accessToken != null) {
-            toast("Requesting...");
             if (userLinks.isEmpty()) {
                 progressDialog = ProgressDialog.show(this, "", "Loading", true);
             }
@@ -87,7 +86,6 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         Cursor cursor = DatabaseInstance.databaseRead.rawQuery(
                 "SELECT LINKS.ID, LINKS.TYPE, LINKS.DESCRIPTION FROM USER_LINKS INNER JOIN LINKS ON USER_LINKS.LINK=LINKS.ID WHERE USER_LINKS.USER=" +
                 idUser, null);
-        Log.d(TAG, "fetchDataDB: called...");
 
         while (cursor.moveToNext()) {
             final int linkId = cursor.getInt(0);
@@ -97,8 +95,8 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
             final String linkName = linkType ==
                                     UserLink.LinkType.PROFESSOR ? getString(R.string.professor_link) : getString(R.string.student_link);
             userLinks.add(new UserLink(linkId, linkName, linkType, linkDescription));
-            Log.d(TAG, "fetchDataDB: adding...");
         }
+        Log.i(TAG, "fetchDataDB: " + userLinks.size() + " links fetched from database");
         cursor.close();
     }
 
