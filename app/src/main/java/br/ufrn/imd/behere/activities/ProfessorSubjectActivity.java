@@ -1,8 +1,11 @@
 package br.ufrn.imd.behere.activities;
 
+import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.ufrn.imd.behere.R;
 import br.ufrn.imd.behere.adapters.SubjectRecyclerAdapter;
@@ -28,11 +33,11 @@ import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorSubjectActivity extends CustomActivity implements RecyclerViewClickListener {
 
+    public static final String TAG = LinkActivity.class.getSimpleName();
     private ArrayList<Subject> professorSubjects;
-    private String TAG = LinkActivity.class.getSimpleName();
     private String jsonStr;
-    private String accessToken;
     private RecyclerView.Adapter adapter;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +46,25 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         setup();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
+
     private void setup() {
         if (DatabaseInstance.dbHelper == null) {
             DatabaseInstance.createDBInstance(getApplicationContext());
         }
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_subjects);
+        RecyclerView recyclerView = findViewById(R.id.rv_subjects);
         professorSubjects = new ArrayList<>();
 
         // Fetch subjects from Database
-        //fetchDataDB();
+        fetchDataDB();
 
         adapter = new SubjectRecyclerAdapter(professorSubjects, this);
         recyclerView.setAdapter(adapter);
@@ -60,8 +74,11 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
         if (accessToken != null) {
+            if (professorSubjects.isEmpty()) {
+                progressDialog = ProgressDialog.show(this, "", "Loading", true);
+            }
             new SubjectTask().execute(accessToken);
         }
 
@@ -73,10 +90,9 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
     }
 
     private void fetchDataDB() {
-        final int loggedUser = prefs.getInt("logged_user_id", 0);
         Cursor cursor = DatabaseInstance.databaseRead.rawQuery(
                 "SELECT SUBJECTS.ID, SUBJECTS.NAME, SUBJECTS.SCHEDULE, SUBJECTS.LOCATION FROM USER_SUBJECTS INNER JOIN SUBJECTS ON USER_SUBJECTS.SUBJECT=SUBJECTS.ID WHERE USER_SUBJECTS.USER=" +
-                loggedUser, null);
+                idUser, null);
 
         while (cursor.moveToNext()) {
             final int id = cursor.getInt(0);
@@ -85,24 +101,20 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
             final String location = cursor.getString(3);
             professorSubjects.add(new Subject(id, schedule, name, location));
         }
+        Log.i(TAG, "fetchDataDB: " + professorSubjects.size() + " subjects fetched from database");
         cursor.close();
     }
 
     @Override
     public void recyclerViewListClicked(View v, int position) {
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("selected_subject", professorSubjects.get(position).getId().toString());
+        editor.putLong("selected_subject", professorSubjects.get(position).getId());
         editor.apply();
         Intent intent = new Intent(this, ProfessorChooseActivity.class);
         startActivity(intent);
     }
 
     public class SubjectTask extends AsyncTask<String, Void, JSONArray> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
         @Override
         protected JSONArray doInBackground(String... params) {
@@ -115,9 +127,9 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
             JSONArray resp = null;
 
             try {
-                jsonStr = get.get(url, accessToken, apiKey);
+                jsonStr = get.get(url, accessToken, API_KEY);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }
 
             if (jsonStr != null) {
@@ -135,18 +147,66 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         @Override
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                try {
-                    JSONObject respSubject = jsonArray.getJSONObject(i);
-                    Subject subject = new Subject(i, respSubject.getString("descricao-horario"),
-                            respSubject.getString("codigo-componente") + " - " +
-                            respSubject.getString("nome-componente"), respSubject.getString("local"));
-                    professorSubjects.add(subject);
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
+            if (progressDialog != null && progressDialog.isShowing()) {
+                progressDialog.dismiss();
             }
+
+            if (jsonArray == null) {
+                toast("Error");
+                return;
+            }
+
+            ArrayList<Subject> newProfessorSubjects = new ArrayList<>();
+
+            if (jsonArray.length() == 0) {
+                TextView txtEmptySubjects = findViewById(R.id.tv_empty_subjects);
+                txtEmptySubjects.setVisibility(View.VISIBLE);
+            } else {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject respSubject = jsonArray.getJSONObject(i);
+                        Subject subject = new Subject(respSubject.getLong("id-turma"), respSubject.getString("descricao-horario"),
+                                respSubject.getString("codigo-componente") + " - " +
+                                respSubject.getString("nome-componente"), respSubject.getString("local"));
+                        newProfessorSubjects.add(subject);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "onPostExecute: Error on JSON", e);
+                    }
+                }
+
+                professorSubjects.clear();
+                professorSubjects.addAll(newProfessorSubjects);
+                adapter.notifyDataSetChanged();
+                updateDatabase(newProfessorSubjects);
+            }
+        }
+
+        private void updateDatabase(List<Subject> professorSubjects) {
+            SQLiteDatabase db = DatabaseInstance.databaseWrite;
+
+            // Clear current entries
+            db.execSQL("DELETE FROM USER_SUBJECTS WHERE USER=" + idUser);
+
+            // Add new entries
+            for (Subject subject : professorSubjects) {
+                ContentValues subjectValues = new ContentValues();
+                subjectValues.put("ID", subject.getId());
+                subjectValues.put("SCHEDULE", subject.getSchedule());
+                subjectValues.put("NAME", subject.getName());
+                subjectValues.put("LOCATION", subject.getLocation());
+                db.insertWithOnConflict("SUBJECTS", null, subjectValues, SQLiteDatabase.CONFLICT_IGNORE);
+
+                ContentValues userSubjectValues = new ContentValues();
+                userSubjectValues.put("USER", idUser);
+                userSubjectValues.put("SUBJECT", subject.getId());
+                db.insertWithOnConflict("USER_SUBJECTS", null, userSubjectValues, SQLiteDatabase.CONFLICT_IGNORE);
+            }
+
+            Log.i(TAG, "updateDatabase: saving last update date -> " + System.currentTimeMillis());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong("last_update_subjects", System.currentTimeMillis());
+            editor.apply();
         }
     }
 }

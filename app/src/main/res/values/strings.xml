@@ -15,9 +15,9 @@
     </string>
     <string name="qrcode_desc">QR Code</string>
     <string name="password_desc">Password</string>
-    <string name="schedule_text">Schedule:</string>
+    <string name="schedule_text">Schedule: %s</string>
     <string name="subject_name_text">Subject Name</string>
-    <string name="location_text">Location:</string>
+    <string name="location_text">Location: %s</string>
     <string name="link_title_text">Link Title</string>
     <string name="link_description_text">Link Description</string>
     <string name="result_failed">Failed</string>
@@ -34,4 +34,5 @@
     <string name="student_link">DISCENTE</string>
     <string name="professor_link">DOCENTE</string>
     <string name="no_links">Nenhum vínculo Cadastrado</string>
+    <string name="no_subjects">Nenhuma disciplina Cadastrada</string>
 </resources>
