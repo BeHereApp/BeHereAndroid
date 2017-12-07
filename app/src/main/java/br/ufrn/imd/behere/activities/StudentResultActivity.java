@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class StudentResultActivity extends CustomActivity {
 
     public static final String PASSWORD_RESULT = "password_result";
     public static final String CHOICE_TYPE = "choice_type";
+    private RelativeLayout layoutResult;
     private ImageView imgResult;
     private TextView txtResult;
     private Button btnResult;
@@ -42,6 +44,7 @@ public class StudentResultActivity extends CustomActivity {
         password = intent.getStringExtra(PASSWORD_RESULT);
         type = intent.getStringExtra(CHOICE_TYPE);
 
+        layoutResult = (RelativeLayout) findViewById(R.id.layout_student_result);
         imgResult = (ImageView) findViewById(R.id.imgResult);
         txtResult = (TextView) findViewById(R.id.txt_result);
         btnResult = (Button) findViewById(R.id.btn_result);
@@ -113,6 +116,7 @@ public class StudentResultActivity extends CustomActivity {
         @Override
         protected void onPostExecute(String string) {
             super.onPostExecute(string);
+            layoutResult.setVisibility(View.VISIBLE);
             if (string != null) {
                 resultSuccess = true;
                 imgResult.setImageResource(R.drawable.positive_result);
