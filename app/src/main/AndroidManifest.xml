@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="br.ufrn.imd.behere">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="br.ufrn.imd.behere">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -16,27 +16,29 @@
             android:name=".activities.LoginActivity"
             android:theme="@style/BeHereTheme.Login">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LinkActivity" />
-        <activity android:name=".activities.StudentChooseActivity" />
-        <activity android:name=".activities.StudentPasswordActivity" />
-        <activity android:name=".activities.StudentResultActivity" />
-        <activity android:name=".activities.ProfessorSubjectActivity" />
-        <activity android:name=".activities.ProfessorChooseActivity" />
-        <activity android:name=".activities.ProfessorPasswordActivity" />
-        <activity android:name=".activities.ProfessorQrCodeActivity" />
-        <activity android:name=".activities.ProfessorResultActivity" />
+        <activity android:name=".activities.LinkActivity"/>
+        <activity android:name=".activities.StudentChooseActivity"/>
+        <activity android:name=".activities.StudentPasswordActivity"/>
+        <activity android:name=".activities.StudentResultActivity"/>
+        <activity android:name=".activities.ProfessorSubjectActivity"/>
+        <activity android:name=".activities.ProfessorChooseActivity"/>
+        <activity android:name=".activities.ProfessorPasswordActivity"/>
+        <activity android:name=".activities.ProfessorQrCodeActivity"/>
+        <activity android:name=".activities.ProfessorResultActivity"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
+            tools:replace="screenOrientation"/>
         <activity
             android:name=".activities.LoginAPIActivity"
-            android:theme="@style/BeHereTheme.NoActionBar" />
+            android:theme="@style/BeHereTheme.NoActionBar"/>
+        <activity android:name=".activities.StudentListActivity">
+        </activity>
     </application>
 
 </manifest>

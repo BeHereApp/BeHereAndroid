@@ -12,8 +12,6 @@ import android.webkit.CookieManager;
 import android.widget.Toast;
 
 import br.ufrn.imd.behere.R;
-import br.ufrn.imd.behere.utils.Constants;
-import br.ufrn.imd.behere.utils.WebService;
 
 /**
  * An Abstract Activity with common configurations for all activities.
@@ -59,7 +57,7 @@ public abstract class CustomActivity extends AppCompatActivity {
             clearPrefs();
             clearCookies();
             Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
             return true;

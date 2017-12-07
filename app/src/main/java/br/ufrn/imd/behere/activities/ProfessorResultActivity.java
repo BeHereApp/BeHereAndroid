@@ -33,9 +33,9 @@ public class ProfessorResultActivity extends CustomActivity {
     public void setup() {
         Intent intent = getIntent();
 
-        imgResult = (ImageView) findViewById(R.id.img_professor_result);
-        txtResult = (TextView) findViewById(R.id.txt_professor_result);
-        btnResult = (Button) findViewById(R.id.btn_professor_result);
+        imgResult = findViewById(R.id.img_professor_result);
+        txtResult = findViewById(R.id.txt_professor_result);
+        btnResult = findViewById(R.id.btn_professor_result);
 
         password = intent.getStringExtra(PASSWORD_RESULT);
         strTimeout = intent.getStringExtra(TIMEOUT_RESULT);
@@ -50,6 +50,12 @@ public class ProfessorResultActivity extends CustomActivity {
     public void performProfessorResult(View v) {
         Intent intent = new Intent(this, ProfessorChooseActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    public void performStudentList(View v) {
+        Intent intent = new Intent(this, StudentListActivity.class);
         startActivity(intent);
         finish();
     }
