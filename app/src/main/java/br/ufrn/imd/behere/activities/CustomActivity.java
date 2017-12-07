@@ -19,10 +19,9 @@ import br.ufrn.imd.behere.R;
 public abstract class CustomActivity extends AppCompatActivity {
     //protected boolean isLogged = false;
     public static final String TAG = LinkActivity.class.getSimpleName();
-    protected final String apiKey = "YPxnOscwdxcBmsd2cVioAHmRRLk6lfBgmmnpBk3d";
+    protected static final String API_KEY = "YPxnOscwdxcBmsd2cVioAHmRRLk6lfBgmmnpBk3d";
     protected SharedPreferences prefs;
     protected long idUser;
-    protected Long linkValue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

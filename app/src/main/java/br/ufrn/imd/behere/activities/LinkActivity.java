@@ -32,13 +32,11 @@ import br.ufrn.imd.behere.utils.Get;
 import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 
 public class LinkActivity extends CustomActivity implements RecyclerViewClickListener {
+    public static final String TAG = LinkActivity.class.getName();
     private ArrayList<UserLink> userLinks;
-    private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private ProgressDialog progressDialog;
-    private String accessToken;
     private String jsonStr;
-    private String TAG = LinkActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
             DatabaseInstance.createDBInstance(getApplicationContext());
         }
 
-        recyclerView = findViewById(R.id.rv_links);
+        final RecyclerView recyclerView = findViewById(R.id.rv_links);
         userLinks = new ArrayList<>();
 
         fetchDataDB();
@@ -72,7 +70,7 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
 
         if (accessToken != null) {
             if (userLinks.isEmpty()) {
@@ -120,11 +118,6 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
     public class LinkTask extends AsyncTask<String, Void, JSONArray> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected JSONArray doInBackground(String... params) {
             String url =
                     Constants.BASE_URL + "vinculo/v0.1/vinculos?ativo=true&id-usuario=" + idUser;
@@ -134,9 +127,9 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
             JSONArray resp = null;
 
             try {
-                jsonStr = get.serviceCall(url, accessToken, apiKey);
+                jsonStr = get.serviceCall(url, accessToken, API_KEY);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }
 
             if (jsonStr != null) {

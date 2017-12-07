@@ -33,10 +33,9 @@ import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 
 public class ProfessorSubjectActivity extends CustomActivity implements RecyclerViewClickListener {
 
+    public static final String TAG = LinkActivity.class.getSimpleName();
     private ArrayList<Subject> professorSubjects;
-    private String TAG = LinkActivity.class.getSimpleName();
     private String jsonStr;
-    private String accessToken;
     private RecyclerView.Adapter adapter;
     private ProgressDialog progressDialog;
 
@@ -75,7 +74,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+        final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
         if (accessToken != null) {
             if (professorSubjects.isEmpty()) {
                 progressDialog = ProgressDialog.show(this, "", "Loading", true);
@@ -118,11 +117,6 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
     public class SubjectTask extends AsyncTask<String, Void, JSONArray> {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected JSONArray doInBackground(String... params) {
             int idProfessor = prefs.getInt("link_id", 1);
             String url = Constants.BASE_URL + "turma/v0.1/turmas?id-docente=" + idProfessor +
@@ -133,9 +127,9 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
             JSONArray resp = null;
 
             try {
-                jsonStr = get.serviceCall(url, accessToken, apiKey);
+                jsonStr = get.serviceCall(url, accessToken, API_KEY);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }
 
             if (jsonStr != null) {

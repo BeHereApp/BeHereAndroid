@@ -161,7 +161,7 @@ public class LoginAPIActivity extends CustomActivity {
             String reqUrl = Constants.BASE_URL + url;
             String jsonStr = null;
             try {
-                jsonStr = get.serviceCall(reqUrl, accessToken, apiKey);
+                jsonStr = get.serviceCall(reqUrl, accessToken, API_KEY);
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }
