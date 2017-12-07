@@ -42,7 +42,7 @@ public class ProfessorQrCodeActivity extends CustomActivity {
 
     private void createQrCode() {
         QRCodeWriter writer = new QRCodeWriter();
-        int subjectId = prefs.getInt("selected_subject", 0);
+        long subjectId = prefs.getLong("selected_subject", 0);
         RandomString random = new RandomString(10);
         int timeout = 1;
 

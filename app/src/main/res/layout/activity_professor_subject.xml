@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="br.ufrn.imd.behere.activities.ProfessorSubjectActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="br.ufrn.imd.behere.activities.ProfessorSubjectActivity">
+
+    <TextView
+        android:id="@+id/tv_empty_subjects"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_subjects"
+        android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_subjects"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 </RelativeLayout>

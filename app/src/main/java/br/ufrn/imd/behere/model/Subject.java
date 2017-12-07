@@ -6,23 +6,23 @@ package br.ufrn.imd.behere.model;
 
 public class Subject {
 
-    private int id;
+    private long id;
     private String schedule;
     private String name;
     private String location;
 
-    public Subject(int id, String schedule, String name, String location) {
+    public Subject(long id, String schedule, String name, String location) {
         this.id = id;
         this.schedule = schedule;
         this.name = name;
         this.location = location;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -1,5 +1,6 @@
 package br.ufrn.imd.behere.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
 public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecyclerAdapter.RecyclerViewHolder> {
 
     private static RecyclerViewClickListener itemListener;
+    private Context context;
     private List<Subject> professorSubjects = new ArrayList<>();
 
     public SubjectRecyclerAdapter(List<Subject> professorSubjects, RecyclerViewClickListener itemListener) {
@@ -27,6 +29,7 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.subject_layout, parent, false);
+        context = parent.getContext();
 
         return new RecyclerViewHolder(view);
     }
@@ -34,9 +37,9 @@ public class SubjectRecyclerAdapter extends RecyclerView.Adapter<SubjectRecycler
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         Subject subject = professorSubjects.get(position);
-        holder.schedule.append(" " + subject.getSchedule());
+        holder.schedule.setText(context.getString(R.string.schedule_text, subject.getSchedule()));
         holder.name.setText(subject.getName());
-        holder.location.append(" " + subject.getLocation());
+        holder.location.setText(context.getString(R.string.location_text, subject.getLocation()));
     }
 
     @Override
