@@ -23,8 +23,8 @@ import br.ufrn.imd.behere.adapters.SubjectRecyclerAdapter;
 import br.ufrn.imd.behere.model.Subject;
 import br.ufrn.imd.behere.utils.Constants;
 import br.ufrn.imd.behere.utils.DatabaseInstance;
-import br.ufrn.imd.behere.utils.Get;
 import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
+import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorSubjectActivity extends CustomActivity implements RecyclerViewClickListener {
 
@@ -91,7 +91,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
     @Override
     public void recyclerViewListClicked(View v, int position) {
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("selected_subject", professorSubjects.get(position).getId());
+        editor.putString("selected_subject", professorSubjects.get(position).getId().toString());
         editor.apply();
         Intent intent = new Intent(this, ProfessorChooseActivity.class);
         startActivity(intent);
@@ -111,11 +111,11 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                          "&ano=2017&id-situacao-turma=1";
             String accessToken = params[0];
 
-            Get get = new Get();
+            WebService get = new WebService();
             JSONArray resp = null;
 
             try {
-                jsonStr = get.serviceCall(url, accessToken, apiKey);
+                jsonStr = get.get(url, accessToken, apiKey);
             } catch (IOException e) {
                 e.printStackTrace();
             }

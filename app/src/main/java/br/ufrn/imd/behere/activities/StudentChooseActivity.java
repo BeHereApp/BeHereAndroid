@@ -42,7 +42,7 @@ public class StudentChooseActivity extends CustomActivity {
         startActivity(intent);
     }
 
-    // Get the results:
+    // WebService the results:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

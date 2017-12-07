@@ -1,28 +1,24 @@
 package br.ufrn.imd.behere.model;
 
-/**
- * Created by thaislins on 31/10/17.
- */
-
 public class Subject {
 
-    private int id;
+    private Integer id;
     private String schedule;
     private String name;
     private String location;
 
-    public Subject(int id, String schedule, String name, String location) {
+    public Subject(Integer id, String schedule, String name, String location) {
         this.id = id;
         this.schedule = schedule;
         this.name = name;
         this.location = location;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

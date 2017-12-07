@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import br.ufrn.imd.behere.R;
 import br.ufrn.imd.behere.utils.Constants;
-import br.ufrn.imd.behere.utils.Get;
+import br.ufrn.imd.behere.utils.WebService;
 
 /**
  * An Abstract Activity with common configurations for all activities.
@@ -30,8 +30,6 @@ public abstract class CustomActivity extends AppCompatActivity {
     protected final String apiKey = "YPxnOscwdxcBmsd2cVioAHmRRLk6lfBgmmnpBk3d";
     protected SharedPreferences prefs;
     protected Long idUser;
-    protected Long linkValue;
-    //protected boolean isLogged = false;
     private String TAG = LinkActivity.class.getSimpleName();
 
     @Override
@@ -103,12 +101,12 @@ public abstract class CustomActivity extends AppCompatActivity {
             String url = params[0];
             String accessToken = params[1];
 
-            Get get = new Get();
+            WebService get = new WebService();
 
             String req_url = Constants.BASE_URL + url;
             String jsonStr = null;
             try {
-                jsonStr = get.serviceCall(req_url, accessToken, apiKey);
+                jsonStr = get.get(req_url, accessToken, apiKey);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -130,6 +128,8 @@ public abstract class CustomActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             try {
                 idUser = jsonObject.getLong("id-usuario");
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong("id_user", idUser);
                 toast(jsonObject.getString("nome-pessoa"));
                         /*jsonObject.getLong("id-unidade"),
                         jsonObject.getLong("id-foto"),
