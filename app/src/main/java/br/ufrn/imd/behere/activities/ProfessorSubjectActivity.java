@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.ufrn.imd.behere.R;
@@ -38,6 +39,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
     private String jsonStr;
     private RecyclerView.Adapter adapter;
     private ProgressDialog progressDialog;
+    private long idProfessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,8 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
         if (DatabaseInstance.dbHelper == null) {
             DatabaseInstance.createDBInstance(getApplicationContext());
         }
+
+        idProfessor = prefs.getLong("link_id", 0);
 
         RecyclerView recyclerView = findViewById(R.id.rv_subjects);
         professorSubjects = new ArrayList<>();
@@ -92,7 +96,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
     private void fetchDataDB() {
         Cursor cursor = DatabaseInstance.databaseRead.rawQuery(
                 "SELECT SUBJECTS.ID, SUBJECTS.NAME, SUBJECTS.SCHEDULE, SUBJECTS.LOCATION FROM USER_SUBJECTS INNER JOIN SUBJECTS ON USER_SUBJECTS.SUBJECT=SUBJECTS.ID WHERE USER_SUBJECTS.USER=" +
-                idUser, null);
+                idProfessor, null);
 
         while (cursor.moveToNext()) {
             final Long id = cursor.getLong(0);
@@ -118,9 +122,8 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
 
         @Override
         protected JSONArray doInBackground(String... params) {
-            int idProfessor = prefs.getInt("link_id", 1);
-            String url = Constants.BASE_URL + "turma/v0.1/turmas?id-docente=" + idProfessor +
-                         "&ano=2017&id-situacao-turma=1";
+            int currYear = Calendar.getInstance().get(Calendar.YEAR);
+            String url = Constants.BASE_URL + "turma/v0.1/turmas?id-docente=" + idProfessor + "&ano=" + currYear + "&id-situacao-turma=1";
             String accessToken = params[0];
 
             WebService get = new WebService();
@@ -167,8 +170,8 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                     try {
                         JSONObject respSubject = jsonArray.getJSONObject(i);
                         Subject subject = new Subject(respSubject.getLong("id-turma"), respSubject.getString("descricao-horario"),
-                                respSubject.getString("codigo-componente") + " - " +
-                                respSubject.getString("nome-componente"), respSubject.getString("local"));
+                                respSubject.getString("codigo-componente") + " - " + respSubject.getString("nome-componente"),
+                                respSubject.getString("local"));
                         newProfessorSubjects.add(subject);
                     } catch (JSONException e) {
                         Log.e(TAG, "onPostExecute: Error on JSON", e);
@@ -186,7 +189,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
             SQLiteDatabase db = DatabaseInstance.databaseWrite;
 
             // Clear current entries
-            db.execSQL("DELETE FROM USER_SUBJECTS WHERE USER=" + idUser);
+            db.execSQL("DELETE FROM USER_SUBJECTS WHERE USER=" + idProfessor);
 
             // Add new entries
             for (Subject subject : professorSubjects) {
@@ -198,15 +201,10 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                 db.insertWithOnConflict("SUBJECTS", null, subjectValues, SQLiteDatabase.CONFLICT_IGNORE);
 
                 ContentValues userSubjectValues = new ContentValues();
-                userSubjectValues.put("USER", idUser);
+                userSubjectValues.put("USER", idProfessor);
                 userSubjectValues.put("SUBJECT", subject.getId());
                 db.insertWithOnConflict("USER_SUBJECTS", null, userSubjectValues, SQLiteDatabase.CONFLICT_IGNORE);
             }
-
-            Log.i(TAG, "updateDatabase: saving last update date -> " + System.currentTimeMillis());
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putLong("last_update_subjects", System.currentTimeMillis());
-            editor.apply();
         }
     }
 }

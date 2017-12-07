@@ -105,10 +105,10 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
         SharedPreferences.Editor editor = prefs.edit();
         if (userLinks.get(position).getType().equals(UserLink.LinkType.STUDENT)) {
             intent = new Intent(this, StudentChooseActivity.class);
-            editor.putInt("link_id", userLinks.get(position).getId());
+            editor.putLong("link_id", userLinks.get(position).getId());
         } else {
             intent = new Intent(this, ProfessorSubjectActivity.class);
-            editor.putInt("link_id", userLinks.get(position).getId());
+            editor.putLong("link_id", userLinks.get(position).getId());
         }
         editor.apply();
 

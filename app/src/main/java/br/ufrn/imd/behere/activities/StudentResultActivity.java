@@ -20,15 +20,20 @@ import br.ufrn.imd.behere.utils.WebService;
 
 public class StudentResultActivity extends CustomActivity {
 
-    public static final String PASSWORD_RESULT = "password_result";
+    public static final String RESULT_PASS = "password_result";
+    public static final String RESULT_SUBJECT = "subject_result";
     public static final String CHOICE_TYPE = "choice_type";
+    public static final int TYPE_PASSWORD = 1;
+    public static final int TYPE_QR_CODE = 2;
+
     private RelativeLayout layoutResult;
     private ImageView imgResult;
     private TextView txtResult;
     private Button btnResult;
     private boolean resultSuccess;
     private String password;
-    private String type;
+    private int type;
+    private long subjectId;
     private IntentIntegrator qrScan;
     private String responseData;
 
@@ -41,29 +46,31 @@ public class StudentResultActivity extends CustomActivity {
 
     public void setup() {
         Intent intent = getIntent();
-        password = intent.getStringExtra(PASSWORD_RESULT);
-        type = intent.getStringExtra(CHOICE_TYPE);
+        resultSuccess = false;
+        password = intent.getStringExtra(RESULT_PASS);
+        type = intent.getIntExtra(CHOICE_TYPE, 0);
+        subjectId = intent.getLongExtra(RESULT_SUBJECT, 0);
 
-        layoutResult = (RelativeLayout) findViewById(R.id.layout_student_result);
-        imgResult = (ImageView) findViewById(R.id.imgResult);
-        txtResult = (TextView) findViewById(R.id.txt_result);
-        btnResult = (Button) findViewById(R.id.btn_result);
+        layoutResult = findViewById(R.id.layout_student_result);
+        imgResult = findViewById(R.id.imgResult);
+        txtResult = findViewById(R.id.txt_result);
+        btnResult = findViewById(R.id.btn_result);
         new AttendeeTask().execute();
     }
 
     public void performResultAction(View v) {
         Intent intent;
-        if (resultSuccess == true) {
+        if (resultSuccess) {
             intent = new Intent(this, StudentChooseActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         } else {
-            if (type.equals("password")) {
+            if (type == TYPE_PASSWORD) {
                 intent = new Intent(this, StudentPasswordActivity.class);
                 startActivity(intent);
                 finish();
-            } else {
+            } else if (type == TYPE_QR_CODE) {
                 qrScan = new IntentIntegrator(this);
                 qrScan.setOrientationLocked(false);
                 qrScan.initiateScan();
@@ -80,7 +87,7 @@ public class StudentResultActivity extends CustomActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 password = result.getContents();
-                type = "qrcode";
+                type = TYPE_QR_CODE;
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -96,14 +103,19 @@ public class StudentResultActivity extends CustomActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String url = "https://behereapi-eltonvs1.c9users.io/api/attendee/4";
             Long userId = prefs.getLong("user_id", 0);
 
+            if (type == TYPE_QR_CODE) {
+                String[] qrText = password.split(";");
+                subjectId = Long.parseLong(qrText[0]);
+                password = qrText[1];
+            }
+
+            String url = "https://behereapi-eltonvs1.c9users.io/api/attendee/" + subjectId;
             WebService post = new WebService();
 
             try {
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("user_id", userId.toString())
+                Uri.Builder builder = new Uri.Builder().appendQueryParameter("user_id", userId.toString())
                         .appendQueryParameter("password", password);
                 responseData = post.sendPost(url, builder.build().getEncodedQuery(), StudentResultActivity.this);
 
