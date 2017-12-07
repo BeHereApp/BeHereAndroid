@@ -6,9 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +20,7 @@ import java.util.Map;
 
 import br.ufrn.imd.behere.R;
 import br.ufrn.imd.behere.utils.Constants;
+import br.ufrn.imd.behere.utils.Get;
 import ca.mimic.oauth2library.OAuth2Client;
 import ca.mimic.oauth2library.OAuthResponse;
 
@@ -88,18 +93,6 @@ public class LoginAPIActivity extends CustomActivity {
         wvLoginAPI.loadUrl(authUrl);
     }
 
-    private void savePreferences(OAuthResponse response) {
-        String accessToken = response.getAccessToken();
-        String refreshToken = response.getRefreshToken();
-        Long expiresIn = response.getExpiresIn();
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
-        editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
-        editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
-        editor.apply();
-    }
-
     private class PostRequestAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         @Override
@@ -109,21 +102,21 @@ public class LoginAPIActivity extends CustomActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
+            OAuth2Client client;
+            Map<String, String> map = new HashMap<>();
+            map.put(Constants.REDIRECT_URI_PARAM, Constants.REDIRECT_URI);
+            map.put(Constants.RESPONSE_TYPE_VALUE, strings[0]);
+
+            client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL).grantType(Constants.GRANT_TYPE).parameters(map).build();
+
             try {
-                OAuth2Client client;
-                Map<String, String> map = new HashMap<>();
-                map.put(Constants.REDIRECT_URI_PARAM, Constants.REDIRECT_URI);
-                map.put(Constants.RESPONSE_TYPE_VALUE, strings[0]);
-
-                client = new OAuth2Client.Builder(Constants.CLIENT_ID_VALUE, Constants.SECRET_KEY, Constants.ACCESS_TOKEN_URL).grantType(Constants.GRANT_TYPE).parameters(map).build();
-
                 OAuthResponse response = client.requestAccessToken();
                 if (response.isSuccessful()) {
                     savePreferences(response);
                     return true;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "doInBackground: Error on requestAccessToken()", e);
             }
 
             return false;
@@ -136,10 +129,72 @@ public class LoginAPIActivity extends CustomActivity {
             }
 
             if (status) {
-                Intent intent = new Intent(LoginAPIActivity.this, LoadUserActivity.class);
-                startActivity(intent);
-                finish();
+                final String accessToken = prefs.getString(Constants.KEY_ACCESS_TOKEN, null);
+                new UserInfoTask().execute(accessToken);
+            } else {
+                toast("Some Error Occurred");
             }
+        }
+
+        private void savePreferences(OAuthResponse response) {
+            String accessToken = response.getAccessToken();
+            String refreshToken = response.getRefreshToken();
+            Long expiresIn = response.getExpiresIn();
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(Constants.KEY_ACCESS_TOKEN, accessToken);
+            editor.putString(Constants.KEY_REFRESH_TOKEN, refreshToken);
+            editor.putLong(Constants.KEY_EXPIRES_IN, expiresIn);
+            editor.apply();
+        }
+    }
+
+    public class UserInfoTask extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... params) {
+            String url = "usuario/v0.1/usuarios/info";
+            String accessToken = params[0];
+
+            Get get = new Get();
+
+            String reqUrl = Constants.BASE_URL + url;
+            String jsonStr = null;
+            try {
+                jsonStr = get.serviceCall(reqUrl, accessToken, apiKey);
+            } catch (IOException e) {
+                Log.e(TAG, "doInBackground: Error on serviceCall", e);
+            }
+
+            JSONObject resp = null;
+            if (jsonStr != null) {
+                try {
+                    resp = new JSONObject(jsonStr);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Json parsing error: " + e.getMessage());
+                }
+            } else {
+                Log.e(TAG, "Couldn't get json from server.");
+            }
+
+            return resp;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                long userId = jsonObject.getLong("id-usuario");
+                toast(jsonObject.getString("nome-pessoa") + ": " + userId);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong("user_id", userId);
+                editor.apply();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Intent intent = new Intent(LoginAPIActivity.this, LinkActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 }
