@@ -12,6 +12,8 @@ import android.webkit.CookieManager;
 import android.widget.Toast;
 
 import br.ufrn.imd.behere.R;
+import br.ufrn.imd.behere.utils.Constants;
+import br.ufrn.imd.behere.utils.WebService;
 
 /**
  * An Abstract Activity with common configurations for all activities.
@@ -75,5 +77,4 @@ public abstract class CustomActivity extends AppCompatActivity {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookies(null);
     }
-
 }

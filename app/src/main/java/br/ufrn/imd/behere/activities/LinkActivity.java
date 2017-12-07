@@ -28,8 +28,8 @@ import br.ufrn.imd.behere.adapters.LinkRecyclerAdapter;
 import br.ufrn.imd.behere.model.UserLink;
 import br.ufrn.imd.behere.utils.Constants;
 import br.ufrn.imd.behere.utils.DatabaseInstance;
-import br.ufrn.imd.behere.utils.Get;
 import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
+import br.ufrn.imd.behere.utils.WebService;
 
 public class LinkActivity extends CustomActivity implements RecyclerViewClickListener {
     public static final String TAG = LinkActivity.class.getName();
@@ -119,15 +119,16 @@ public class LinkActivity extends CustomActivity implements RecyclerViewClickLis
 
         @Override
         protected JSONArray doInBackground(String... params) {
+            //Long idUser = prefs.getLong("id_user", 0);
             String url =
                     Constants.BASE_URL + "vinculo/v0.1/vinculos?ativo=true&id-usuario=" + idUser;
             String accessToken = params[0];
 
-            Get get = new Get();
+            WebService get = new WebService();
             JSONArray resp = null;
 
             try {
-                jsonStr = get.serviceCall(url, accessToken, API_KEY);
+                jsonStr = get.get(url, accessToken, API_KEY);
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }

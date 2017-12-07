@@ -28,8 +28,8 @@ import br.ufrn.imd.behere.adapters.SubjectRecyclerAdapter;
 import br.ufrn.imd.behere.model.Subject;
 import br.ufrn.imd.behere.utils.Constants;
 import br.ufrn.imd.behere.utils.DatabaseInstance;
-import br.ufrn.imd.behere.utils.Get;
 import br.ufrn.imd.behere.utils.RecyclerViewClickListener;
+import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorSubjectActivity extends CustomActivity implements RecyclerViewClickListener {
 
@@ -95,7 +95,7 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                 idUser, null);
 
         while (cursor.moveToNext()) {
-            final int id = cursor.getInt(0);
+            final Long id = cursor.getLong(0);
             final String name = cursor.getString(1);
             final String schedule = cursor.getString(2);
             final String location = cursor.getString(3);
@@ -123,11 +123,11 @@ public class ProfessorSubjectActivity extends CustomActivity implements Recycler
                          "&ano=2017&id-situacao-turma=1";
             String accessToken = params[0];
 
-            Get get = new Get();
+            WebService get = new WebService();
             JSONArray resp = null;
 
             try {
-                jsonStr = get.serviceCall(url, accessToken, API_KEY);
+                jsonStr = get.get(url, accessToken, API_KEY);
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: Error on serviceCall", e);
             }

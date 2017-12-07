@@ -1,11 +1,15 @@
 package br.ufrn.imd.behere.activities;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import br.ufrn.imd.behere.R;
+import br.ufrn.imd.behere.utils.WebService;
 
 public class ProfessorPasswordActivity extends CustomActivity {
 
@@ -38,7 +42,7 @@ public class ProfessorPasswordActivity extends CustomActivity {
 
             Intent intent = new Intent(this, ProfessorResultActivity.class);
             intent.putExtra(ProfessorResultActivity.PASSWORD_RESULT, password);
-            intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, timeout);
+            intent.putExtra(ProfessorResultActivity.TIMEOUT_RESULT, strTimeout);
             startActivity(intent);
             finish();
         }
