@@ -74,7 +74,7 @@ public class ProfessorResultActivity extends CustomActivity {
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("date", currentDate.toString())
                         .appendQueryParameter("professor_id", userId.toString())
-                        .appendQueryParameter("attendance_id", "3")
+                        .appendQueryParameter("attendance_id", "4")
                         .appendQueryParameter("class_id", class_id.toString())
                         .appendQueryParameter("starting_date", currentDate.toString())
                         .appendQueryParameter("timeout", strTimeout)
